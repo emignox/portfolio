@@ -14,7 +14,7 @@ function Nav() {
         >
           <span className="text-4xl  text-white  p-0 m-0 ">☰</span>
         </button>
-        <ul className="hidden lg:flex flex-col lg:flex-row   lg:text-white lg:text-2xl">
+        <ul className="hidden lg:flex flex-col lg:flex-row   lg:text-white  lg:text-lg ">
           <li className=" lg:mx-44 lg:py-4  ">
             <Link to="/">Home</Link>
           </li>
@@ -24,7 +24,7 @@ function Nav() {
         </ul>
         <div className=" ">
           <ul
-            className={`flex flex-row mt-3 text-white text-2xl lg:hidden transition-all duration-1000 ease-in-out overflow-hidden ${
+            className={`flex flex-row mt-3 text-white text-base lg:hidden transition-all duration-1000 ease-in-out overflow-hidden ${
               isOpen
                 ? "opacity-100 max-h-full slide-in-from-left"
                 : "opacity-0 max-h-0"

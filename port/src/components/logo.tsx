@@ -4,7 +4,11 @@ function Logo() {
   return (
     <>
       <div>
-        <img className=" w-14  lg:py-3   lg:block lg:mx-8 " src={Foto} alt="" />
+        <img
+          className=" w-14  lg:py-3  pt-2 lg:block lg:mx-8 "
+          src={Foto}
+          alt=""
+        />
       </div>
     </>
   );

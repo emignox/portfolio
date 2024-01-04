@@ -1,0 +1,12 @@
+.animate-width {
+  animation: increase-width 3s;
+}
+
+@keyframes increase-width {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%; /* Questo valore sarà sovrascritto dallo stile inline */
+  }
+}
