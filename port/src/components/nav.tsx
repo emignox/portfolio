@@ -19,7 +19,7 @@ function Nav() {
             <Link to="/">Home</Link>
           </li>
           <li className="lg:mx-64 lg:py-4">
-            <Link to="/about">About me</Link>
+            <Link to="/about">About Me</Link>
           </li>
         </ul>
         <div className=" ">

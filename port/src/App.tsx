@@ -1,6 +1,7 @@
 import Nav from "./components/nav";
 import Logo from "./components/logo";
 import Text from "./components/bigText";
+import Skills from "./components/skills";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
       <div className="">
         {" "}
         <Text />
+      </div>
+      <div className="  lg:my-10  my-32">
+        <Skills />
       </div>
     </>
   );

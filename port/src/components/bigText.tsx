@@ -6,8 +6,8 @@ import LittleText from "./littleText";
 function text() {
   return (
     <Fragment>
-      <div className="   font font-black bg-white mx-3 h-auto rounded-2xl  shadow-lg:hidden  py-3  lg:bg-transparent  ">
-        <h1 className="  lg:text-center fade-in-from-left text-6xl text-center mt-10 lg:text-9xl lg:mt-20 ">
+      <div className="shadow-xl lg:shadow-none bg-white mx-3 h-auto rounded-2xl border-gray-300 py-3 lg:bg-transparent">
+        <h1 className="  lg:text-center fade-in-from-left text-6xl text-center mt-10 lg:text-9xl lg:mt-20  font-black">
           FRONT-END DEVELOPER
         </h1>
         <div className="lg:flex">
