@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Skilles } from "../interfaces/inter";
 
-const skills: Skilles[] = [
+export const skills: Skilles[] = [
   { title: "HTML", value: 90 },
   { title: "CSS", value: 85 },
   { title: "TypeScript", value: 80 },
@@ -9,4 +10,4 @@ const skills: Skilles[] = [
   { title: "Tailwind", value: 80 },
 ];
 
-export default skills;
+// Use the buttonProps somewhere in your cod
