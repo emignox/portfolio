@@ -13,7 +13,7 @@ export function Landing() {
   return (
     <>
       <div className="h-screen">
-        <video
+        {/* <video
           autoPlay
           loop
           muted
@@ -27,7 +27,7 @@ export function Landing() {
             zIndex: "-1",
           }}
           // src={space}
-        />
+        /> */}
         <Nav className="" />
 
         <ButtonWork />
