@@ -1,6 +1,6 @@
 "use client";
 import Nav from "./nav";
-// import space from "/under-water.mp4";
+import space from "/under-water.mp4";
 import Sound from "./sound";
 import { useState, useEffect } from "react";
 import Button from "./button-work";
@@ -51,7 +51,7 @@ export function About() {
   return (
     <>
       <div className=" h-screen">
-        {/* <video
+        <video
           className=" object-cover"
           autoPlay
           loop
@@ -64,8 +64,8 @@ export function About() {
 
             zIndex: "-1",
           }}
-          // src={space}
-        /> */}
+          src={space}
+        />
         <Nav className="" />
         <Button />
         <div className="  flex justify-center items-center flex-col h-3/5  ">

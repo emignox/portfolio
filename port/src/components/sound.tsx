@@ -1,7 +1,7 @@
 import { CiWavePulse1 } from "react-icons/ci";
 import { GoDash } from "react-icons/go";
 import { useState } from "react";
-// import sound from "/space-sound.mp3";
+import sound from "/space-sound.mp3";
 
 interface SoundProps {
   className: string;
@@ -23,7 +23,7 @@ function Sound({ className }: SoundProps) {
         ) : (
           <GoDash className="text-3xl" onClick={handleIconClick} />
         )}
-        {/* {isPlaying ? <audio src={sound} autoPlay loop /> : null} */}
+        {isPlaying ? <audio src={sound} autoPlay loop /> : null}
       </div>
     </>
   );

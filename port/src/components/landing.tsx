@@ -1,7 +1,7 @@
 "use client";
 import { TextGenerateEffect } from "./effect";
 import Nav from "./nav";
-// import space from "/sea5.mp4";
+import space from "/sea5.mp4";
 import { MdArrowOutward } from "react-icons/md";
 import Sound from "./sound";
 import ButtonWork from "./button-work";
@@ -13,7 +13,7 @@ export function Landing() {
   return (
     <>
       <div className="h-screen">
-        {/* <video
+        <video
           autoPlay
           loop
           muted
@@ -26,8 +26,8 @@ export function Landing() {
 
             zIndex: "-1",
           }}
-          // src={space}
-        /> */}
+          src={space}
+        />
         <Nav className="" />
 
         <ButtonWork />
