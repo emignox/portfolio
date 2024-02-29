@@ -66,8 +66,11 @@ export function About() {
           muted
         >
           <source
-            src="https://d390qhcyssfpfj.cloudfront.net/under-water.mp4"
+            src="https://d390qhcyssfpfj.cloudfront.net/water.mp4"
             type="video/mp4"
+            style={{
+              filter: "brightness(0.8)",
+            }}
           />
           Il tuo browser non supporta il tag video.
         </video>
