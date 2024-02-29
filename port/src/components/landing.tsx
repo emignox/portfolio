@@ -25,27 +25,27 @@ export function Landing() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // 4 secondi
+    }, 4000); // 4 secondi
 
     return () => clearTimeout(timer); // Pulisce il timer quando il componente si smonta
   }, []);
   return (
     <>
-      {isLoading && <div className="loading-overlay">Caricamento...</div>}
+      {isLoading && <div className="loading-overlay">Charging...</div>}
       <div className="h-screen">
-        <iframe
-          src="https://player.vimeo.com/video/917839580?h=3b27fc15d7&background=1&autoplay=1&muted=1"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: -1,
-            filter: "brightness(0.8)",
-          }}
-          allow="autoplay; fullscreen"
-        ></iframe>
+        <video
+          className="fixed top-0 left-0 w-full h-screen z-[-10] m-0 p-0 border-none object-cover"
+          autoPlay
+          loop
+          muted
+        >
+          <source
+            src="https://d390qhcyssfpfj.cloudfront.net/sea5+copia.mp4"
+            type="video/mp4"
+          />
+          Il tuo browser non supporta il tag video.
+        </video>
+
         <Nav className="" />
         <ButtonWork />
         <div className="  flex justify-center items-center flex-col space-y-10   my-52 ">

@@ -57,21 +57,20 @@ export function About() {
 
   return (
     <>
-      {isLoading && <div className="loading-overlay">Caricamento...</div>}
+      {isLoading && <div className="loading-overlay">Charging...</div>}
       <div className=" h-screen">
-        <iframe
-          src="https://player.vimeo.com/video/917837444?h=6f4cae5e9f&background=1"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: -1,
-            filter: "brightness(0.9)",
-          }}
-          allow="autoplay; fullscreen"
-        ></iframe>
+        <video
+          className="fixed top-0 left-0 w-full h-screen z-[-10] m-0 p-0 border-none object-cover"
+          autoPlay
+          loop
+          muted
+        >
+          <source
+            src="https://d390qhcyssfpfj.cloudfront.net/under-water.mp4"
+            type="video/mp4"
+          />
+          Il tuo browser non supporta il tag video.
+        </video>
         <Nav className="" />
         <Button />
         <div className="  flex justify-center items-center flex-col h-3/5  ">

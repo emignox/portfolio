@@ -19,7 +19,7 @@ function contact() {
   return (
     <>
       <section className="h-screen flex flex-col   pt-5 justify-between">
-        <h1 className="text-white text-start text-8xl font-bold mx-4">
+        <h1 className="text-white text-start text-5xl lg:text-8xl font-bold mx-4">
           Let's Work together
         </h1>
         <div className="   flex flex-col  space-y-32 my-12  w-full  items-start justify-start   p-5">
