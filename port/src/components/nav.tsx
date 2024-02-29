@@ -1,7 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../img/logo1.png";
+import logo from "/logo1.png";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdArrowOutward } from "react-icons/md";
 
