@@ -57,7 +57,7 @@ function Nav({ className }: NavProps) {
         >
           <ul className="text-white text-xl font-black flex flex-col  justify-center items-center">
             <li
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300 mx-3 my-5  flex"
             >
               <MdArrowOutward className=" " /> Home

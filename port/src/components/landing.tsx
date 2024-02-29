@@ -42,6 +42,7 @@ export function Landing() {
             width: "100%",
             height: "100%",
             zIndex: -1,
+            filter: "brightness(0.8)",
           }}
           allow="autoplay; fullscreen"
         ></iframe>
