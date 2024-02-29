@@ -1,5 +1,4 @@
 import Nav from "./nav";
-import space from "/under-water.mp4";
 import Sound from "./sound";
 import { useState, useEffect } from "react";
 import Button from "./button-work";
@@ -23,6 +22,15 @@ let index = 0;
 
 export function About() {
   const [currentWord, setCurrentWord] = useState(words[0]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000); // 4 secondi
+
+    return () => clearTimeout(timer); // Pulisce il timer quando il componente si smonta
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,22 +57,21 @@ export function About() {
 
   return (
     <>
+      {isLoading && <div className="loading-overlay">Caricamento...</div>}
       <div className=" h-screen">
-        <video
-          className=" object-cover"
-          autoPlay
-          loop
-          muted
+        <iframe
+          src="https://player.vimeo.com/video/917837444?h=6f4cae5e9f&background=1"
           style={{
-            filter: "brightness(70%)",
             position: "fixed",
-            width: "100vw", // viewport width
-            height: "100vh", // viewport height
-
-            zIndex: "-1",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: -1,
+            filter: "brightness(0.9)",
           }}
-          src={space}
-        />
+          allow="autoplay; fullscreen"
+        ></iframe>
         <Nav className="" />
         <Button />
         <div className="  flex justify-center items-center flex-col h-3/5  ">
