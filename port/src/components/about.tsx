@@ -1,4 +1,3 @@
-"use client";
 import Nav from "./nav";
 import space from "/under-water.mp4";
 import Sound from "./sound";
@@ -79,7 +78,7 @@ export function About() {
         <motion.div
           ref={ref1}
           initial={{ opacity: 0 }}
-          animate={{ opacity: inView1 ? 1.5 : 0 }}
+          animate={{ opacity: inView1 ? 1 : 0 }}
           drag="x"
           className="flex  items-start w-full   "
         >
@@ -89,7 +88,7 @@ export function About() {
           ref={ref2}
           initial={{ opacity: 0 }}
           animate={{ opacity: inView2 ? 1 : 0 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 1 }}
         >
           <Skills />
         </motion.div>
@@ -97,7 +96,7 @@ export function About() {
           ref={ref3}
           initial={{ opacity: 0 }}
           animate={{ opacity: inView3 ? 1 : 0 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 1 }}
         >
           <Sentence />
         </motion.div>
@@ -106,7 +105,7 @@ export function About() {
           ref={ref4}
           initial={{ opacity: 0 }}
           animate={{ opacity: inView4 ? 1 : 0 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 1 }}
         >
           <Contact />
         </motion.div>
