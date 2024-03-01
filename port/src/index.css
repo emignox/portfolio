@@ -136,3 +136,7 @@ body {
     opacity: 0;
   }
 }
+
+.container {
+  perspective: 1000px;
+}

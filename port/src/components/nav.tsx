@@ -69,7 +69,7 @@ function Nav({ className }: NavProps) {
               <MdArrowOutward className=" " /> About Me
             </li>
             <li
-              onClick={() => navigate("./")}
+              onClick={() => navigate("/projects")}
               className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300  my-5 flex"
             >
               <MdArrowOutward /> Projects

@@ -4,6 +4,7 @@ import { MdArrowOutward } from "react-icons/md";
 import Sound from "./sound";
 import ButtonWork from "./button-work";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const words = () => {
   return (
     <h1 className="font-black text-4xl  lg:text-6xl    text-white fade h-1/4  ">
@@ -21,6 +22,7 @@ const name = () => {
 
 export function Landing() {
   const [isLoading, setIsLoading] = useState(true);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,7 +55,10 @@ export function Landing() {
           {words()}
           {name()}
 
-          <button className="button flex items-center justify-center ">
+          <button
+            onClick={() => Navigate("/projects")}
+            className="button flex items-center justify-center "
+          >
             See my projects <MdArrowOutward className=" mx-1 " />{" "}
           </button>
           <div className=" w-10 h-10  absolute bottom-10 m-2 left-0">
