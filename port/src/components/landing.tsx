@@ -38,6 +38,7 @@ export function Landing() {
           autoPlay
           loop
           muted
+          playsInline
         >
           <source
             src="https://d390qhcyssfpfj.cloudfront.net/sea5+copia.mp4"

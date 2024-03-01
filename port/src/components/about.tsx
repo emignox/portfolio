@@ -64,6 +64,7 @@ export function About() {
           autoPlay
           loop
           muted
+          playsInline
         >
           <source
             src="https://d390qhcyssfpfj.cloudfront.net/water.mp4"
