@@ -23,6 +23,15 @@ const name = () => {
 export function Landing() {
   const [isLoading, setIsLoading] = useState(true);
   const Navigate = useNavigate();
+  useEffect(() => {
+    // Imposta l'overflow del body a hidden quando il componente viene montato
+    document.body.style.height = "auto";
+
+    return () => {
+      // Reimposta l'overflow del body a quello che era prima quando il componente viene smontato
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

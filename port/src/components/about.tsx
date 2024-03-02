@@ -23,7 +23,15 @@ let index = 0;
 export function About() {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    // Imposta l'overflow del body a hidden quando il componente viene montato
+    document.body.style.height = "auto";
 
+    return () => {
+      // Reimposta l'overflow del body a quello che era prima quando il componente viene smontato
+      document.body.style.overflow = "";
+    };
+  }, []);
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);

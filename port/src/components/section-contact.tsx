@@ -1,5 +1,6 @@
 import Cv from "./cv-button";
 import { MdArrowOutward } from "react-icons/md";
+import { useRef } from "react";
 
 const links = [
   {
@@ -15,7 +16,18 @@ const links = [
     url: "mailto:emanuele971@icloud.com", // Sostituisci con il tuo indirizzo email
   },
 ];
-function contact() {
+function Contact() {
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const message = messageRef.current?.value;
+    if (message) {
+      window.location.href = `mailto:emanuele971@icloud.com?body=${encodeURIComponent(
+        message
+      )}`;
+    }
+  };
   return (
     <>
       <section className="h-screen flex flex-col   pt-5 justify-between">
@@ -27,20 +39,20 @@ function contact() {
             Send me a message
           </h2>
           <form
-            className=" flex flex-col items-start justify-start  w-full"
-            action="https://formspree.io/emanuele971@icloud.com"
-            method="POST"
+            className="flex flex-col items-start justify-start w-full"
+            onSubmit={handleSubmit}
           >
             <label className="text-white w-full h-32">
               <textarea
+                ref={messageRef}
                 placeholder="Your message here"
                 name="message"
-                className="  text-3xl focus:outline-none rounded p-1 w-full placeholder-white placeholder-opacity-80 bg-transparent border-none"
+                className="text-3xl focus:outline-none rounded p-1 w-full placeholder-white placeholder-opacity-80 bg-transparent border-none"
               ></textarea>
             </label>
             <button
               type="submit"
-              className="bg-white text-black w-32 text-xl rounded-3xl  p-2 mt-2 hover:text-white hover:bg-transparent border transition duration-500 ease-in-out"
+              className="bg-white text-black w-32 text-xl rounded-3xl p-2 mt-2 hover:text-white hover:bg-transparent border transition duration-500 ease-in-out"
             >
               send <MdArrowOutward className="inline" />
             </button>
@@ -68,4 +80,4 @@ function contact() {
   );
 }
 
-export default contact;
+export default Contact;
