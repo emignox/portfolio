@@ -1,6 +1,5 @@
 import React, { useEffect, useState, FC, useRef } from "react";
 import fresh1 from "/fresh1.png";
-import Sound from "./sound";
 import resto from "/restoo.png";
 import Logo from "./logo-fresh";
 import donut from "/donut.png";
@@ -31,6 +30,7 @@ const Scroll3D: FC = () => {
       .fill(0)
       .map((_, i) => (10 - i) * -1000)
   );
+
   useEffect(() => {
     const handleScroll = () => {
       const top = window.pageYOffset;
@@ -57,7 +57,22 @@ const Scroll3D: FC = () => {
 
   return (
     <>
-      <Sound className="" />
+      <div className="h-screen">
+        <video
+          className="fixed top-0 left-0 w-full h-screen z-[-10] m-0 p-0 border-none object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source
+            src="https://stockema.s3.eu-north-1.amazonaws.com/fire.mp4
+            "
+            type="video/mp4"
+          />
+          Il tuo browser non supporta il tag video.
+        </video>
+      </div>
       <div id="content">
         <div id="viewport">
           <Frame type="text" z={zVals[0]}>
