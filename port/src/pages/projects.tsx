@@ -1,4 +1,4 @@
-import Proj from "../components/projects-code";
+import Proj from "../components/scrolling-proj";
 
 function Projects() {
   return (

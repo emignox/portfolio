@@ -64,13 +64,13 @@ function Nav({ className }: NavProps) {
             </li>
             <li
               onClick={() => navigate("/about")}
-              className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300 mx-3 my-5  flex"
+              className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300 mx-3 my-5  flex cursor-pointer"
             >
               <MdArrowOutward className=" " /> About Me
             </li>
             <li
-              onClick={() => navigate("/projects")}
-              className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300  my-5 flex"
+              onClick={() => navigate("/scroll")}
+              className="opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300  my-5 flex  cursor-pointer "
             >
               <MdArrowOutward /> Projects
             </li>

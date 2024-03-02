@@ -8,7 +8,6 @@ function logoFresh({ className }: porps) {
       <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"
-        height="45"
         viewBox="0 0 114 45"
         fill="none"
       >

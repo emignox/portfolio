@@ -48,9 +48,9 @@ body {
   letter-spacing: 5px;
   text-transform: uppercase;
   cursor: pointer;
-  color: #cecece;
+  color: #ffffff;
   transition: all 1000ms;
-  font-size: 15px;
+  font-size: 20px;
   position: relative;
   overflow: hidden;
   outline: 2px solid #ffffff;
@@ -197,7 +197,6 @@ img {
 .frame.text h1 {
   font-size: 8em;
   font-weight: 900;
-  color: white;
   padding: 2em;
 }
 .frame.box {
@@ -206,4 +205,10 @@ img {
   font-weight: 900;
   font-size: 10em;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .frame.text h1 {
+    padding: 0px;
+  }
 }

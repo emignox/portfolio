@@ -1,9 +1,10 @@
 import React, { useEffect, useState, FC, useRef } from "react";
 import fresh1 from "/fresh1.png";
 import Sound from "./sound";
-import Nav from "./nav";
 import resto from "/restoo.png";
 import Logo from "./logo-fresh";
+import donut from "/donut.png";
+import { useNavigate } from "react-router-dom";
 interface FrameProps {
   type: string;
   z: number;
@@ -30,7 +31,6 @@ const Scroll3D: FC = () => {
       .fill(0)
       .map((_, i) => (10 - i) * -1000)
   );
-
   useEffect(() => {
     const handleScroll = () => {
       const top = window.pageYOffset;
@@ -39,6 +39,8 @@ const Scroll3D: FC = () => {
 
       setZVals((zVals) => zVals.map((z) => z + delta * -1.5));
     };
+
+    window.addEventListener("scroll", handleScroll);
 
     const animateScroll = () => {
       handleScroll();
@@ -51,20 +53,28 @@ const Scroll3D: FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const Navigate = useNavigate();
 
   return (
     <>
+      <Sound className="" />
       <div id="content">
-        <Nav className="" />
-        <Sound className="" />
         <div id="viewport">
-          <Frame type="image" z={zVals[0]}>
+          <Frame type="text" z={zVals[0]}>
+            <button
+              onClick={() => Navigate("/")}
+              className="  h-32 text-9xl  button"
+            >
+              Come back home{" "}
+            </button>
+          </Frame>
+          <Frame type="image" z={zVals[1]}>
             <img
               style={{ filter: "brightness(0.8)" }}
               src={resto}
               alt="placeholder"
             />
-            <button className=" button">
+            <button className=" button ">
               {" "}
               <a href="https://emignox.github.io/react-restaurant-/">
                 {" "}
@@ -73,10 +83,21 @@ const Scroll3D: FC = () => {
             </button>
           </Frame>
 
-          <Frame type="text" z={zVals[1]}>
-            <h1>Restaurant Business idea </h1>
+          <Frame type="text" z={zVals[2]}>
+            <div className="flex ">
+              {" "}
+              <h1 className="  text-indigo-950 blocks  ">
+                F
+                <span>
+                  <img className="  w-32  inline" src={donut} alt="" />
+                </span>
+                DO
+                <br />{" "}
+                <span className="text-white"> Restaurant business idea</span>
+              </h1>
+            </div>
           </Frame>
-          <Frame type="image" z={zVals[2]}>
+          <Frame type="image" z={zVals[3]}>
             <img
               style={{ filter: "brightness(0.8)" }}
               src={fresh1}
@@ -87,13 +108,11 @@ const Scroll3D: FC = () => {
               <a href="https://emignox.github.io/fresh/"> visit the website</a>
             </button>
           </Frame>
-          <Frame type="text" z={zVals[3]}>
-            <h1>
-              <Logo className="w-96" />
-            </h1>
+          <Frame type="text" z={zVals[4]}>
+            <Logo className="h-52 lg:h-full" />
             <p></p>
           </Frame>
-          <Frame type="box" z={zVals[4]}>
+          <Frame type="box" z={zVals[5]}>
             <h1>Projects</h1>
           </Frame>
         </div>
