@@ -66,7 +66,7 @@ export function Landing() {
 
           <button
             onClick={() => Navigate("/scroll")}
-            className="button flex items-center justify-center "
+            className="button flex items-center justify-center  "
           >
             See my projects <MdArrowOutward className=" mx-1 " />{" "}
           </button>
