@@ -4,6 +4,9 @@ import resto from "/restoo.png";
 import Logo from "./logo-fresh";
 import donut from "/donut.png";
 import { useNavigate } from "react-router-dom";
+import Sound from "./sound";
+import Reload from "./reload";
+
 interface FrameProps {
   type: string;
   z: number;
@@ -23,14 +26,20 @@ const Frame: FC<FrameProps> = ({ type, children, z }) => {
     </div>
   );
 };
-const Scroll3D: FC = () => {
+const Scroll3D: React.FC = () => {
   const scrollPos = useRef(0);
+  const [scale, setScale] = useState(1);
   const [zVals, setZVals] = useState<number[]>(
     Array(10)
       .fill(0)
       .map((_, i) => (10 - i) * -1000)
   );
-
+  useEffect(() => {
+    if (!sessionStorage.getItem("reloaded")) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    }
+  }, []);
   useEffect(() => {
     const handleScroll = () => {
       const top = window.pageYOffset;
@@ -38,6 +47,9 @@ const Scroll3D: FC = () => {
       scrollPos.current = top;
 
       setZVals((zVals) => zVals.map((z) => z + delta * -1.5));
+
+      // Aggiorna la scala del video in base allo scroll
+      setScale(1 + top / 5000);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -53,10 +65,12 @@ const Scroll3D: FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   const Navigate = useNavigate();
 
   return (
     <>
+      <Reload />
       <div className="h-screen">
         <video
           className="fixed top-0 left-0 w-full h-screen z-[-10] m-0 p-0 border-none object-cover"
@@ -64,6 +78,7 @@ const Scroll3D: FC = () => {
           loop
           muted
           playsInline
+          style={{ filter: "brightness(0.9)", transform: `scale(${scale})` }}
         >
           <source
             src="https://stockema.s3.eu-north-1.amazonaws.com/fire.mp4
@@ -80,7 +95,7 @@ const Scroll3D: FC = () => {
               onClick={() => Navigate("/")}
               className="  h-32 text-9xl  button"
             >
-              Come back home{" "}
+              Go back{" "}
             </button>
           </Frame>
           <Frame type="image" z={zVals[1]}>
@@ -113,22 +128,23 @@ const Scroll3D: FC = () => {
             </div>
           </Frame>
           <Frame type="image" z={zVals[3]}>
-            <img
-              style={{ filter: "brightness(0.8)" }}
-              src={fresh1}
-              alt="placeholder"
-            />
+            <img style={{}} src={fresh1} alt="placeholder" />
             <button className=" button">
               {" "}
               <a href="https://emignox.github.io/fresh/"> visit the website</a>
             </button>
           </Frame>
           <Frame type="text" z={zVals[4]}>
-            <Logo className="h-52 lg:h-full" />
+            <Logo className="h-52  lg:h-96" />
             <p></p>
           </Frame>
           <Frame type="box" z={zVals[5]}>
             <h1>Projects</h1>
+          </Frame>
+          <Frame type="box" z={zVals[6]}>
+            <div className="flex  ">
+              <Sound className=" text-9xl border rounded-full  p-2   text-white  " />
+            </div>
           </Frame>
         </div>
       </div>

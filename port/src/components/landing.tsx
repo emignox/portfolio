@@ -65,13 +65,13 @@ export function Landing() {
           {name()}
 
           <button
-            onClick={() => Navigate("/projects")}
+            onClick={() => Navigate("/scroll")}
             className="button flex items-center justify-center "
           >
             See my projects <MdArrowOutward className=" mx-1 " />{" "}
           </button>
           <div className=" w-10 h-10  absolute bottom-10 m-2 left-0">
-            <Sound className="" />
+            <Sound className="border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center " />
           </div>
         </div>
       </div>

@@ -1,12 +1,15 @@
 import { CiWavePulse1 } from "react-icons/ci";
 import { GoDash } from "react-icons/go";
 import { useState, useEffect } from "react";
-import sound from "/space-sound.mp3";
+import soundFile from "/space-sound.mp3";
 import { useLocation } from "react-router-dom";
 
 interface SoundProps {
   className: string;
 }
+
+// Creazione di un elemento audio globale
+const audio = new Audio(soundFile);
 
 function Sound({ className }: SoundProps) {
   const [isPlaying, setIsPlaying] = useState(
@@ -26,6 +29,26 @@ function Sound({ className }: SoundProps) {
     setIsPlaying(localStorage.getItem("isPlaying") === "true");
   }, [location]);
 
+  useEffect(() => {
+    const savedTime = localStorage.getItem("audio-time");
+    if (savedTime) {
+      audio.currentTime = Number(savedTime);
+    }
+    if (isPlaying) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem("audio-time", audio.currentTime.toString());
+    });
+    return () => {
+      window.removeEventListener("beforeunload", () => {
+        localStorage.setItem("audio-time", audio.currentTime.toString());
+      });
+    };
+  }, [isPlaying]);
+
   const handleIconClick = () => {
     setIsPlaying(!isPlaying);
     if (!hasStarted) {
@@ -34,17 +57,13 @@ function Sound({ className }: SoundProps) {
   };
 
   return (
-    <>
-      {className}
-      <div className="border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center">
-        {isPlaying ? (
-          <CiWavePulse1 className="text-3xl" onClick={handleIconClick} />
-        ) : (
-          <GoDash className="text-3xl" onClick={handleIconClick} />
-        )}
-        {isPlaying && hasStarted ? <audio src={sound} autoPlay loop /> : null}
-      </div>
-    </>
+    <div className={className}>
+      {isPlaying ? (
+        <CiWavePulse1 className="text-3xl" onClick={handleIconClick} />
+      ) : (
+        <GoDash className="text-3xl" onClick={handleIconClick} />
+      )}
+    </div>
   );
 }
 

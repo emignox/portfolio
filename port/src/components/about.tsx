@@ -90,7 +90,7 @@ export function About() {
             {currentWord}
           </div>
           <div className=" w-10 h-10  fixed  bottom-10 m-2 right-0">
-            <Sound className="" />
+            <Sound className=" border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center " />
           </div>
         </div>
         <motion.div
