@@ -1,12 +1,12 @@
 import Home from "./pages/home";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "./pages/aboutMe";
 import Scroll from "./pages/projects";
 
 function App() {
   return (
     <>
-      <Router basename="/portfolio">
+      <Router basename="/portfolio/">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

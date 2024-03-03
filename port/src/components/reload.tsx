@@ -30,10 +30,7 @@ const ReloadPrompt: React.FC = () => {
           Please reload the page to display the content correctly.
           <br />
         </p>
-        <p className="my-10 ">
-          stay ready to scroll the page
-          <br />
-        </p>
+
         <button
           className="  border font-semibold w-1/6 text-black bg-white text-2xl rounded-full p-5"
           onClick={handleReloadClick}
