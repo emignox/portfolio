@@ -26,8 +26,13 @@ const ReloadPrompt: React.FC = () => {
       }}
     >
       <div className=" text-white opacity-60 font-black text-4xl ">
-        <p className="my-32 ">
+        <p className="my-20 ">
           Please reload the page to display the content correctly.
+          <br />
+        </p>
+        <p className="my-10 ">
+          stay ready to scroll the page
+          <br />
         </p>
         <button
           className="  border font-semibold w-1/6 text-black bg-white text-2xl rounded-full p-5"

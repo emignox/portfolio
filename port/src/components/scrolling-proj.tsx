@@ -131,7 +131,7 @@ const Scroll3D: React.FC = () => {
             <img style={{}} src={fresh1} alt="placeholder" />
             <button className=" button">
               {" "}
-              <a href="https://emignox.github.io/fresh/"> visit the website</a>
+              <a href="https://emignox.github.io/fresh/"> Take a look </a>
             </button>
           </Frame>
           <Frame type="text" z={zVals[4]}>
@@ -145,6 +145,9 @@ const Scroll3D: React.FC = () => {
             <div className="flex  ">
               <Sound className=" text-9xl border rounded-full  p-2   text-white  " />
             </div>
+          </Frame>
+          <Frame type="box" z={zVals[7]}>
+            <h1 className="  font-semibold">Scroll this pages</h1>
           </Frame>
         </div>
       </div>
