@@ -32,7 +32,7 @@ const ReloadPrompt: React.FC = () => {
         </p>
 
         <button
-          className="  border font-semibold w-1/6 text-black bg-white text-2xl rounded-full p-5"
+          className="  border font-semibold w-32   text-black bg-white text-2xl rounded-full p-2"
           onClick={handleReloadClick}
         >
           Reload
