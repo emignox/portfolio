@@ -14,10 +14,16 @@ interface FrameProps {
 }
 
 const Frame: FC<FrameProps> = ({ type, children, z }) => {
+  z = z / 4; // Diminuisce il valore di z
+
+  // Calcola l'opacità in base alla larghezza dello schermo
+  const opacity = Math.abs(z) / window.innerWidth + 0.8;
+
   const style = {
     transform: `translateZ(${z}px)`,
     display: z > 0 ? "none" : "block",
-    opacity: z < 200 ? 1 : 1 - Math.round(((z - 200) / (300 - 200)) * 10) / 10,
+    opacity: opacity,
+    transition: "opacity 0.1s ease", // Aggiungi questa linea
   };
 
   return (
@@ -138,16 +144,14 @@ const Scroll3D: React.FC = () => {
             <Logo className="h-52  lg:h-96" />
             <p></p>
           </Frame>
-          <Frame type="box" z={zVals[5]}>
-            <h1>Projects</h1>
-          </Frame>
+
           <Frame type="box" z={zVals[6]}>
             <div className="flex  ">
               <Sound className=" text-9xl border rounded-full  p-2   text-white  " />
             </div>
           </Frame>
           <Frame type="box" z={zVals[7]}>
-            <h1 className="  font-semibold">Scroll this pages</h1>
+            <h1 className="  font-semibold">Scroll this page</h1>
           </Frame>
         </div>
       </div>
