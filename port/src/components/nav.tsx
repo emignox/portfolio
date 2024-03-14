@@ -36,10 +36,10 @@ function Nav({ className }: NavProps) {
 
   return (
     <>
-      <div className="flex justify-between  items-center  bg-transparent  ">
+      <div
+        className={`flex justify-between  items-center   bg-transparent ${className}`}
+      >
         <img className="w-1/5 lg:w-20   lg:h-20" src={logo} alt="" />
-
-        {className}
 
         <button className="" onClick={handleMenu}>
           {menu ? (

@@ -34,7 +34,7 @@ function Contact() {
         <h1 className="text-white text-start text-5xl lg:text-8xl font-bold mx-4">
           Let's Work together
         </h1>
-        <div className="   flex flex-col  space-y-32 my-12  w-full  items-start justify-start   p-5">
+        <div className="   flex flex-col  space-y-32 my-3  w-full  items-start justify-start   p-5">
           <h2 className="text-white text-3xl font-bold opacity-90">
             Send me a message
           </h2>
