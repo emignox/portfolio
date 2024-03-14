@@ -52,24 +52,25 @@ function Contact() {
             </label>
             <button
               type="submit"
-              className="bg-white text-black w-32 text-xl rounded-3xl p-2 mt-2 hover:text-white hover:bg-transparent border transition duration-500 ease-in-out"
+              className="bg-white group  flex justify-center items-center text-black w-32 text-xl rounded-3xl p-2 mt-2 hover:text-white hover:bg-transparent border transition duration-500 ease-in-out"
             >
-              send <MdArrowOutward className="inline" />
+              send{" "}
+              <MdArrowOutward className=" mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </form>
           <Cv text="Download my Resume" />
         </div>
-        <div className="flex flex-col h-1/2 justify-start items-start my-12  pb-32 lg:flex lg:flex-row lg:pb-0">
+        <div className="flex flex-col space-y-3 lg:space-y-0 h-1/2 justify-start items-start my-12  pb-32 lg:flex lg:flex-row lg:pb-0">
           <h1 className="text-white mx-12 text-xl lg:text-3xl">
             Or reach me through here:
           </h1>
 
           {links.map((link, index) => (
-            <ul className="" key={index}>
+            <ul className=" " key={index}>
               <a href={link.url}>
-                <li className="text-white mx-12 text-3xl border-b cursor-pointer">
+                <li className="text-white mx-12 text-3xl border-b cursor-pointer group flex justify-center items-center">
                   {link.name}
-                  <MdArrowOutward className="inline" />
+                  <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </li>
               </a>
             </ul>

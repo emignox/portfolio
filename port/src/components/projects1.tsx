@@ -27,7 +27,7 @@ function Projects() {
       description: {
         tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />],
         hooks: ["useState,", " UseEffect,", " useRef,", " UseContext"],
-        info: "project created in react  using different hooks,  mapping arrays. for descriptions and images, use of context to keep updated cart data in different components ",
+        info: "Project created in react  using different hooks,  mapping arrays. for descriptions and images, use of context to keep updated cart data in different components ",
       },
     },
     {
@@ -85,17 +85,17 @@ function Projects() {
               >
                 <div className=" flex flex-col justify-center items-center  space-y-5 ">
                   <img
-                    className="w-4/5 rounded-xl  lg:w-3/3 "
+                    className="w-4/5 rounded-xl  lg:w-3/3  shadow-xl shadow-black "
                     src={project.img}
                     alt=""
                   />
-                  <button className=" border border-white rounded-lg text-xl text-white hover:text-black hover:bg-white px-2 inline-block w-1/2 lg:w-2/5 transition duration-500 ease-in-out mb-6 lg:mb-0">
+                  <button className=" border-2 border-white rounded-xl text-xl text-white hover:text-black hover:bg-white px-2 inline-block w-1/2 lg:w-44 p-1 transition duration-500 ease-in-out mb-6 lg:mb-0">
                     {" "}
-                    <a href={project.link}> visit the website </a>
+                    <a href={project.link}> Visit the website </a>
                   </button>
                 </div>
                 <div className=" flex flex-col space-y-5 lg:space-y-3 justify-center items-center lg:h-1/2 text-white lg:mx-32 ">
-                  <h1 className=" text-center text-3xl font-black text-white">
+                  <h1 className=" text-center text-3xl font-black text-white  ">
                     {project.title}
                   </h1>
                   <div className="flex flex-col ">

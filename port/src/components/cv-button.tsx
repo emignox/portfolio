@@ -16,9 +16,10 @@ function Button({ text }: ButtonProps) {
     <div>
       <button
         onClick={handleClick}
-        className="button flex items-center justify-center "
+        className="button flex items-center justify-center group "
       >
-        <MdArrowOutward className=" mx-1 " /> {text}
+        {text}{" "}
+        <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
       </button>
     </div>
   );
