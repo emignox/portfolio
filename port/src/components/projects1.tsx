@@ -80,7 +80,7 @@ function Projects() {
           {projects.map((project, index) => (
             <>
               <div
-                className=" h-screen flex space-y-5 flex-col justify-center  items-center text-center  lg:flex lg:flex-row  lg:justify-center lg:items-center "
+                className="  h-screen  flex space-y-5 flex-col justify-center  items-center text-center  lg:flex lg:flex-row  lg:justify-center lg:items-center "
                 key={index}
               >
                 <div className=" flex flex-col justify-center items-center  space-y-5 ">
