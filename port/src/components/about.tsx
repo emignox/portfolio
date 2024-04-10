@@ -50,17 +50,17 @@ export function About() {
   }, []);
   //animazione testi
   const { ref: ref1, inView: inView1 } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   const { ref: ref2, inView: inView2 } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const { ref: ref3, inView: inView3 } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const { ref: ref4, inView: inView4 } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   return (

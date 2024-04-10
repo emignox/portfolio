@@ -7,6 +7,10 @@ import poke from "/poke-api.png";
 import { IoLogoJavascript } from "react-icons/io5";
 import { FaReact } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
+import Scroll from "./scroll";
+import whisper from "/whisper.png";
+import { FaNodeJs } from "react-icons/fa";
+import { SiMongodb } from "react-icons/si";
 
 function Projects() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,6 +24,22 @@ function Projects() {
   }, []);
 
   const projects = [
+    {
+      img: whisper,
+      title: "whisper",
+      link: "",
+      description: {
+        tech: [
+          <FaReact />,
+          <IoLogoJavascript />,
+          <SiTailwindcss />,
+          <FaNodeJs />,
+          <SiMongodb />,
+        ],
+        hooks: [" useState,", " UseEffect(fetch),", " useNavigate"],
+        info: "Using Node.js for the backend. The link isn't functional yet because the project is still in progress. This is my first full-stack project included in my portfolio to strengthen my understanding of backend-to-frontend interaction.😃",
+      },
+    },
     {
       img: fresh,
       title: "Fresh Shop",
@@ -79,41 +99,43 @@ function Projects() {
         <div className="">
           {projects.map((project, index) => (
             <>
-              <div
-                className="  h-screen  flex space-y-5 flex-col justify-center  items-center text-center  lg:flex lg:flex-row  lg:justify-center lg:items-center "
-                key={index}
-              >
-                <div className=" flex flex-col justify-center items-center  space-y-5 ">
-                  <img
-                    className="w-4/5 rounded-xl  lg:w-3/3  shadow-xl shadow-black "
-                    src={project.img}
-                    alt=""
-                  />
-                  <button className=" border-2 border-white rounded-xl text-xl text-white hover:text-black hover:bg-white px-2 inline-block w-1/2 lg:w-44 p-1 transition duration-500 ease-in-out mb-6 lg:mb-0">
-                    {" "}
-                    <a href={project.link}> Visit the website </a>
-                  </button>
-                </div>
-                <div className=" flex flex-col space-y-5 lg:space-y-3 justify-center items-center lg:h-1/2 text-white lg:mx-32 ">
-                  <h1 className=" text-center text-3xl font-black text-white  ">
-                    {project.title}
-                  </h1>
-                  <div className="flex flex-col ">
-                    <h2 className=" text-center font-bold"> Tech used:</h2>
-                    <h1 className="flex text-6xl  justify-between  p-1 rounded-xl space-x-5  items-center mx-auto border-2 border-white ">
-                      {project.description.tech}
-                    </h1>
+              <Scroll>
+                <div
+                  className="  h-screen  flex space-y-5 flex-col justify-center  items-center text-center  lg:flex lg:flex-row  lg:justify-center lg:items-center "
+                  key={index}
+                >
+                  <div className=" flex flex-col justify-center items-center  space-y-5 ">
+                    <img
+                      className="w-4/5 rounded-xl  lg:w-3/3  shadow-xl shadow-black "
+                      src={project.img}
+                      alt=""
+                    />
+                    <button className=" border-2 border-white rounded-xl text-xl text-white hover:text-black hover:bg-white px-2 inline-block w-1/2 lg:w-44 p-1 transition duration-500 ease-in-out mb-6 lg:mb-0">
+                      {" "}
+                      <a href={project.link}> Visit the website </a>
+                    </button>
                   </div>
-                  <h1 className=" font-bold text-center text-xl "> hooks:</h1>
-                  <p className=" text-xs font-black text-center lg:w-3/4">
-                    {project.description.hooks}
-                  </p>
-                  <h1 className=" font-bold">Description:</h1>
-                  <p className=" text-pretty w-4/5">
-                    {project.description.info}
-                  </p>
+                  <div className=" flex flex-col space-y-5 lg:space-y-3 justify-center items-center lg:h-1/2 text-white lg:mx-32 ">
+                    <h1 className=" text-center text-3xl font-black text-white  ">
+                      {project.title}
+                    </h1>
+                    <div className="flex flex-col ">
+                      <h2 className=" text-center font-bold"> Tech used:</h2>
+                      <h1 className="flex text-6xl  justify-between  p-1 rounded-xl space-x-5  items-center mx-auto border-2 border-white ">
+                        {project.description.tech}
+                      </h1>
+                    </div>
+                    <h1 className=" font-bold text-center text-xl "> hooks:</h1>
+                    <p className=" text-xs font-black text-center lg:w-3/4">
+                      {project.description.hooks}
+                    </p>
+                    <h1 className=" font-bold">Description:</h1>
+                    <p className=" text-pretty w-4/5">
+                      {project.description.info}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Scroll>
             </>
           ))}
         </div>

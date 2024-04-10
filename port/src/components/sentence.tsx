@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 function Sentence() {
   const { ref, inView } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   return (
