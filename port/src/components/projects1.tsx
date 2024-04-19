@@ -27,7 +27,7 @@ function Projects() {
     {
       img: whisper,
       title: "whisper",
-      link: "",
+      link: "https://whisper-two-omega.vercel.app",
       description: {
         tech: [
           <FaReact />,
@@ -37,7 +37,7 @@ function Projects() {
           <SiMongodb />,
         ],
         hooks: [" useState,", " UseEffect(fetch),", " useNavigate"],
-        info: "Using Node.js for the backend. The link isn't functional yet because the project is still in progress. This is my first full-stack project included in my portfolio to strengthen my understanding of backend-to-frontend interaction.😃",
+        info: "Using Node.js for the backend. it doesn't have all functionallity  because the project is still in progress. This is my first full-stack project included in my portfolio to strengthen my understanding of backend-to-frontend interaction.😃",
       },
     },
     {
@@ -101,36 +101,39 @@ function Projects() {
             <>
               <Scroll>
                 <div
-                  className="  h-screen  flex space-y-5 flex-col justify-center  items-center text-center  lg:flex lg:flex-row  lg:justify-center lg:items-center "
+                  className="flex flex-col items-center justify-center h-screen space-y-5 text-center lg:flex lg:flex-row lg:justify-center lg:items-center"
                   key={index}
                 >
-                  <div className=" flex flex-col justify-center items-center  space-y-5 ">
+                  <div className="flex flex-col items-center justify-center space-y-5 ">
                     <img
-                      className="w-4/5 rounded-xl  lg:w-3/3  shadow-xl shadow-black "
+                      className="w-4/5 shadow-xl rounded-xl lg:w-3/3 shadow-black "
                       src={project.img}
                       alt=""
                     />
-                    <button className=" border-2 border-white rounded-xl text-xl text-white hover:text-black hover:bg-white px-2 inline-block w-1/2 lg:w-44 p-1 transition duration-500 ease-in-out mb-6 lg:mb-0">
+                    <button className="inline-block w-1/2 p-1 px-2 mb-6 text-xl text-white transition duration-500 ease-in-out border-2 border-white rounded-xl hover:text-black hover:bg-white lg:w-44 lg:mb-0">
                       {" "}
-                      <a href={project.link}> Visit the website </a>
+                      <a target="_blank" href={project.link}>
+                        {" "}
+                        Visit the website{" "}
+                      </a>
                     </button>
                   </div>
-                  <div className=" flex flex-col space-y-5 lg:space-y-3 justify-center items-center lg:h-1/2 text-white lg:mx-32 ">
-                    <h1 className=" text-center text-3xl font-black text-white  ">
+                  <div className="flex flex-col items-center justify-center space-y-5 text-white lg:space-y-3 lg:h-1/2 lg:mx-32">
+                    <h1 className="text-3xl font-black text-center text-white ">
                       {project.title}
                     </h1>
                     <div className="flex flex-col ">
-                      <h2 className=" text-center font-bold"> Tech used:</h2>
-                      <h1 className="flex text-6xl  justify-between  p-1 rounded-xl space-x-5  items-center mx-auto border-2 border-white ">
+                      <h2 className="font-bold text-center "> Tech used:</h2>
+                      <h1 className="flex items-center justify-between p-1 mx-auto text-6xl border-2 border-white lg:space-x-5 rounded-xl ">
                         {project.description.tech}
                       </h1>
                     </div>
-                    <h1 className=" font-bold text-center text-xl "> hooks:</h1>
-                    <p className=" text-xs font-black text-center lg:w-3/4">
+                    <h1 className="text-xl font-bold text-center "> hooks:</h1>
+                    <p className="text-xs font-black text-center lg:w-3/4">
                       {project.description.hooks}
                     </p>
-                    <h1 className=" font-bold">Description:</h1>
-                    <p className=" text-pretty w-4/5">
+                    <h1 className="font-bold ">Description:</h1>
+                    <p className="w-4/5 text-pretty">
                       {project.description.info}
                     </p>
                   </div>
@@ -139,8 +142,8 @@ function Projects() {
             </>
           ))}
         </div>
-        <div className=" w-10 h-10  fixed bottom-10 m-2 right-3 ">
-          <Sound className="border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center " />
+        <div className="fixed w-10 h-10 m-2 bottom-10 right-3">
+          <Sound className="flex items-center justify-center w-12 h-12 text-white border-2 rounded-full " />
         </div>
       </div>
     </>
