@@ -51,6 +51,7 @@ function Nav({ className }: NavProps) {
       </div>
       {menu && (
         <div
+          onPointerLeave={handleMenu}
           className={`absolute right-0 bg-gray-900 h-auto flex justify-center items-center  z-30 rounded-xl w-52 mx-5 ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}

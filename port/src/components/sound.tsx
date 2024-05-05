@@ -57,12 +57,16 @@ function Sound({ className }: SoundProps) {
   };
 
   return (
-    <div className={className}>
-      {isPlaying ? (
-        <CiWavePulse1 className="text-3xl" onClick={handleIconClick} />
-      ) : (
-        <GoDash className="text-3xl" onClick={handleIconClick} />
-      )}
+    <div className="fixed w-10 h-10 m-2 bottom-10 right-3">
+      <div
+        className={`flex items-center justify-center w-12 h-12 text-white border-2 rounded-full ${className}`}
+      >
+        {isPlaying ? (
+          <CiWavePulse1 className="text-3xl" onClick={handleIconClick} />
+        ) : (
+          <GoDash className="text-3xl" onClick={handleIconClick} />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import Nav from "./nav";
 import Sound from "./sound";
 import { useState, useEffect } from "react";
 import Button from "./button-work";
@@ -8,6 +7,7 @@ import Sentence from "./sentence";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import Contact from "./section-contact";
+import Video from "./background-video";
 
 const words = [
   "welcome",
@@ -22,7 +22,6 @@ let index = 0;
 
 export function About() {
   const [currentWord, setCurrentWord] = useState(words[0]);
-  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     // Imposta l'overflow del body a hidden quando il componente viene montato
     document.body.style.height = "auto";
@@ -31,13 +30,6 @@ export function About() {
       // Reimposta l'overflow del body a quello che era prima quando il componente viene smontato
       document.body.style.overflow = "";
     };
-  }, []);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 4000); // 4 secondi
-
-    return () => clearTimeout(timer); // Pulisce il timer quando il componente si smonta
   }, []);
 
   useEffect(() => {
@@ -65,34 +57,14 @@ export function About() {
 
   return (
     <>
-      {isLoading && <div className="loading-overlay">Charging...</div>}
       <div className=" h-screen">
-        <video
-          id="video"
-          className="fixed top-0 left-0 w-full h-screen z-[-10] m-0 p-0 border-none object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            filter: "blur(40px) brightness(70%)",
-          }}
-        >
-          <source
-            src="https://stockema.s3.eu-north-1.amazonaws.com/production_id_4779866+(1080p).mp4"
-            type="video/mp4"
-          />
-          Il tuo browser non supporta il tag video.
-        </video>
-        <Nav className="" />
+        <Video />
         <Button />
         <div className="  flex justify-center items-center flex-col h-3/5  ">
           <div className="font-black text-4xl  lg:text-8xl    text-white fade-in-out h-1/4   ">
             {currentWord}
           </div>
-          <div className=" w-10 h-10  fixed  bottom-10 m-2 right-3 ">
-            <Sound className=" border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center   " />
-          </div>
+          <Sound className=" border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center   " />
         </div>
         <motion.div
           ref={ref1}
