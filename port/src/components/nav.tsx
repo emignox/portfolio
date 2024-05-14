@@ -39,44 +39,44 @@ function Nav({ className }: NavProps) {
       <div
         className={`flex justify-between  items-center   bg-transparent ${className}`}
       >
-        <img className="w-1/5 lg:w-20   lg:h-20" src={logo} alt="" />
+        <img className="w-1/5 lg:w-20 lg:h-20" src={logo} alt="" />
 
         <button className="" onClick={handleMenu}>
           {menu ? (
-            <IoCloseSharp className="text-white text-5xl m-3 border-2 rounded-full p-2" />
+            <IoCloseSharp className="p-2 m-3 text-5xl text-white border-2 rounded-full" />
           ) : (
-            <GiHamburgerMenu className="text-white text-5xl m-3 border-2 rounded-full p-2" />
+            <GiHamburgerMenu className="p-2 m-3 text-5xl text-white border-2 rounded-full" />
           )}
         </button>
       </div>
       {menu && (
         <div
           onPointerLeave={handleMenu}
-          className={`absolute right-0 bg-gray-900 h-auto flex justify-center items-center  z-30 rounded-xl w-52 mx-5 ${
+          className={`absolute right-0 bg-gray-900 h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}
         >
-          <ul className="text-white text-xl font-black flex flex-col  justify-center items-center">
+          <ul className="flex flex-col items-start justify-start text-xl font-black text-white">
             <li
               onClick={() => navigate("/")}
-              className=" group  items-center justify-center opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300 mx-3 my-5  flex"
+              className="flex items-center justify-start my-5 group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
             >
-              Home{" "}
-              <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              Home
+              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </li>
             <li
               onClick={() => navigate("/about")}
-              className=" group items-center justify-center opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300 mx-3 my-5  text-justify flex cursor-pointer"
+              className="flex items-center justify-start my-5 text-justify cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
             >
               AboutMe
-              <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </li>
             <li
               onClick={() => navigate("/scroll")}
-              className="group items-center justify-center opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300  my-5 flex  cursor-pointer "
+              className="flex items-center justify-start my-5 cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
             >
               Projects
-              <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </li>
           </ul>
         </div>

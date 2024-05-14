@@ -8,6 +8,8 @@ import whisper from "/whisper.png";
 import { FaNodeJs } from "react-icons/fa";
 import { SiMongodb } from "react-icons/si";
 import { ReactElement } from "react";
+import Codex from "/codex.png";
+import Weibo from "/weibo.png";
 
 export interface Project {
   img: string;
@@ -22,8 +24,28 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    img: Weibo,
+    title: "Weibo",
+    link: "https://weibo-nine.vercel.app",
+    description: {
+      tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />],
+      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
+      info: "Weibo invites you to an interactive 3D experience, powered by React Three.js and Three Fiber. Each click or hover interaction engages the user with dynamically responsive objects. Created from Blender and seamlessly integrated into the web, Weibo is an ongoing project with a slow loading time due to hosting constraints, yet worth the wait. It's far from completion and requires further development.",
+    },
+  },
+  {
+    img: Codex,
+    title: "Codex",
+    link: "https://codex-two-sage.vercel.app",
+    description: {
+      tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />],
+      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
+      info: " Codex invites you to a tranquil 3D oasis, sculpted with React Three.js and Three Fiber. As my first complete project, Codex is a finished virtual environment that provides a relaxing escape. This project marks my debut in implementing 3D objects created in Blender and integrated into the web with the assistance of Three.js. 😃",
+    },
+  },
+  {
     img: whisper,
-    title: "whisper",
+    title: "Whisper",
     link: "https://whisper-two-omega.vercel.app",
     description: {
       tech: [

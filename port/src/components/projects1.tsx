@@ -23,9 +23,12 @@ function Projects() {
         {projects.map((project, index) => (
           <div key={index} onClick={() => handleProjectClick(project)}>
             {project === currentProject && (
-              <div className="flex flex-col items-center justify-center gap-y-6 lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-32 ">
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center gap-y-6 lg:flex lg:flex-row lg:justify-center lg:items-center lg:px-32 "
+              >
                 <img
-                  className="w-full px-3 rounded-3xl lg:w-2/5"
+                  className="w-full px-3 lg:w-2/5"
                   src={project.img}
                   alt={project.title}
                 />
@@ -41,7 +44,7 @@ function Projects() {
                       href={project.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-2 py-2 text-white transition-all duration-300 border-2 border-white rounded-lg hover:bg-white hover:text-black"
+                      className="px-4 py-2 text-white transition-all duration-300 border-2 border-white rounded-lg hover:bg-white hover:text-black"
                     >
                       See project
                     </a>
