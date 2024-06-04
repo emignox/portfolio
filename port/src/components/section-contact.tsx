@@ -30,47 +30,47 @@ function Contact() {
   };
   return (
     <>
-      <section className="h-screen flex flex-col   pt-5 justify-between">
-        <h1 className="text-white text-start text-5xl lg:text-8xl font-bold mx-4">
+      <section className="flex flex-col justify-between h-screen pt-5">
+        <h1 className="mx-4 text-5xl font-bold text-white text-start lg:text-8xl">
           Let's Work together
         </h1>
-        <div className="   flex flex-col  space-y-32 my-3  w-full  items-start justify-start   p-5">
-          <h2 className="text-white text-3xl font-bold opacity-90">
+        <div className="flex flex-col items-start justify-start w-full p-5 my-3 space-y-32 ">
+          <h2 className="text-3xl font-bold text-white opacity-90">
             Send me a message
           </h2>
           <form
             className="flex flex-col items-start justify-start w-full"
             onSubmit={handleSubmit}
           >
-            <label className="text-white w-full h-32">
+            <label className="w-full h-32 text-white">
               <textarea
                 ref={messageRef}
                 placeholder="Your message here"
                 name="message"
-                className="text-3xl focus:outline-none rounded p-1 w-full placeholder-white placeholder-opacity-80 bg-transparent border-none"
+                className="w-full p-1 text-3xl placeholder-white bg-transparent border-none rounded focus:outline-none placeholder-opacity-80"
               ></textarea>
             </label>
             <button
               type="submit"
-              className="bg-white group  flex justify-center items-center text-black w-32 text-xl rounded-3xl p-2 mt-2 hover:text-white hover:bg-transparent border transition duration-500 ease-in-out"
+              className="flex items-center justify-center w-32 p-2 mt-2 text-xl text-black transition duration-500 ease-in-out bg-white border group rounded-3xl hover:text-white hover:bg-transparent"
             >
               send{" "}
-              <MdArrowOutward className=" mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward className="mx-3 transition-transform duration-200 transform  group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </form>
           <Cv text="Download my Resume" />
         </div>
-        <div className="flex flex-col space-y-3 lg:space-y-0 h-1/2 justify-start items-start my-12  pb-32 lg:flex lg:flex-row lg:pb-0">
-          <h1 className="text-white mx-12 text-xl lg:text-3xl">
+        <div className="flex flex-col items-start justify-start pb-32 my-12 space-y-3 lg:space-y-0 h-1/2 lg:flex lg:flex-row lg:pb-0">
+          <h1 className="mx-12 text-xl text-white lg:text-3xl">
             Or reach me through here:
           </h1>
 
           {links.map((link, index) => (
-            <ul className=" " key={index}>
+            <ul className="" key={index}>
               <a href={link.url}>
-                <li className="text-white mx-12 text-3xl border-b cursor-pointer group flex justify-center items-center">
+                <li className="flex items-center justify-center mx-12 text-3xl text-white border-b cursor-pointer group">
                   {link.name}
-                  <MdArrowOutward className="mx-3 transform transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <MdArrowOutward className="mx-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </li>
               </a>
             </ul>

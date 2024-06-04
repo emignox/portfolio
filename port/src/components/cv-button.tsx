@@ -3,9 +3,8 @@ import { MdArrowOutward } from "react-icons/md";
 interface ButtonProps {
   text: string;
   onClick?: () => void;
-  className: string;
 }
-function Button({ text, className }: ButtonProps) {
+function Button({ text }: ButtonProps) {
   const handleClick = () => {
     const link = document.createElement("a");
     link.href = "./cvema.pdf"; // Inserisci qui il percorso al tuo CV
@@ -17,7 +16,7 @@ function Button({ text, className }: ButtonProps) {
     <div>
       <button
         onClick={handleClick}
-        className={`button flex items-center justify-center group ${className} `}
+        className={`button flex items-center justify-center group  `}
       >
         {text}{" "}
         <MdArrowOutward className="mx-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />

@@ -37,7 +37,7 @@ export function Landing() {
           >
             See my projects <MdArrowOutward className="mx-1 " />{" "}
           </button> */}
-          <Button className="mx-5 lg:mx-0" text="Download my resume" />
+          <Button text="Download my resume" />
           <Sound className="" />
         </div>
       </div>
