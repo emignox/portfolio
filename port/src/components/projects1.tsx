@@ -13,11 +13,11 @@ function Projects() {
   return (
     <>
       <Video />
-      <h1 className="pb-10 text-2xl font-black text-center text-white lg:pb-0">
+      <h1 className="pt-10 pb-10 text-2xl font-black text-center text-white md:text-5xl lg:pb-0 ">
         MY PROJECTS
       </h1>
 
-      <div className="flex flex-col items-center justify-center  lg:h-[85vh]">
+      <div className="flex flex-col items-center justify-center  lg:h-[85vh] pb-10 md:pb-0">
         <Nav_projects onProjectClick={handleProjectClick} />
 
         {projects.map((project, index) => (
