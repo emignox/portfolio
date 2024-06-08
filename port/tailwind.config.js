@@ -6,6 +6,7 @@ export default {
       colors: {
         "custom-red": "#f2f2f2",
         "custom-green": "#6dadab", // aggiungi il tuo colore personalizzato qui
+        "custom-blue": "#012836",
       },
     },
   },

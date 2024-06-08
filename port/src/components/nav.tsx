@@ -52,11 +52,11 @@ function Nav({ className }: NavProps) {
       {menu && (
         <div
           onPointerLeave={handleMenu}
-          className={`absolute right-0 bg-gray-900 h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
+          className={`absolute right-0 bg-custom-blue h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}
         >
-          <ul className="flex flex-col items-start justify-start text-xl font-black text-white">
+          <ul className="flex flex-col items-start justify-start text-xl font-black text-white ">
             <li
               onClick={() => navigate("/")}
               className="flex items-center justify-start my-5 group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"

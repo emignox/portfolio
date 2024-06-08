@@ -29,8 +29,18 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    img: Coach,
+    title: "My coaching website",
+    link: "https://front-ten-fawn.vercel.app",
+    description: {
+      tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />, <SiRedux />],
+      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
+      info: "My personal website, created for me in the future in case I decide to launch myself as a sports coach, is still a work in progress. The most complex part was creating my backend in Node.js and using Redux in this project to give clients the ability to create appointments. Nodemailer is still to be implemented to confirm the appointments.",
+    },
+  },
+  {
     img: akwanza,
-    title: "Intern proj akwnaza",
+    title: "Intern Project akwnaza",
     link: "https://www.akwanza.com",
     description: {
       tech: [
@@ -41,12 +51,12 @@ export const projects: Project[] = [
         <GiJesterHat />,
       ],
       hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
-      info: "(password:Akwanza),Akwnza is a project created to raise awareness about the effects of poaching in Africa and support an organization called BigLife, which is dedicated to the conservation of wildlife in Africa. Animations were created by me, and the project's structure and design were developed in Figma, entirely conceived by me and another intern.",
+      info: "(password:Akwanza) ,Akwnza is a project created to raise awareness about the effects of poaching in Africa and support an organization called BigLife, which is dedicated to the conservation of wildlife in Africa. Animations were created by me, and the project's structure and design were developed in Figma, entirely conceived by me and another intern.",
     },
   },
   {
     img: afitpilot,
-    title: "Walter Clayton proj afitpilot",
+    title: "Walter Clayton Project afitpilot",
     link: "https://www.afitpilot.com",
     description: {
       tech: [
@@ -60,16 +70,7 @@ export const projects: Project[] = [
       info: "In my internship... A website created by third parties, but I continued and corrected some errors in the frontend. I also tested some APIs with Jest to ensure correct functionality and collaborated with my colleagues for deployment on more efficient hosting platforms.",
     },
   },
-  {
-    img: Coach,
-    title: "My coaching website",
-    link: "https://front-ten-fawn.vercel.app",
-    description: {
-      tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />, <SiRedux />],
-      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
-      info: "My personal website, created for me in the future in case I decide to launch myself as a sports coach, is still a work in progress. The most complex part was creating my backend in Node.js and using Redux in this project to give clients the ability to create appointments. Nodemailer is still to be implemented to confirm the appointments.",
-    },
-  },
+
   {
     img: Weibo,
     title: "Weibo",

@@ -1,7 +1,6 @@
 // import { TextGenerateEffect } from "./effect";
 import Sound from "./sound";
 import ButtonWork from "./button-work";
-import Video from "./background-video";
 import Button from "./cv-button";
 
 const words = () => {
@@ -25,7 +24,6 @@ export function Landing() {
   return (
     <>
       <div className="h-screen-[-200px] ">
-        <Video />
         <ButtonWork />
         <div className="flex flex-col items-center justify-center space-y-10 my-52">
           {words()}

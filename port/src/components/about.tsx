@@ -7,7 +7,6 @@ import Sentence from "./sentence";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import Contact from "./section-contact";
-import Video from "./background-video";
 
 const words = [
   "welcome",
@@ -57,21 +56,20 @@ export function About() {
 
   return (
     <>
-      <div className=" h-screen">
-        <Video />
+      <div className="h-screen ">
         <Button />
-        <div className="  flex justify-center items-center flex-col h-3/5  ">
-          <div className="font-black text-4xl  lg:text-8xl    text-white fade-in-out h-1/4   ">
+        <div className="flex flex-col items-center justify-center h-3/5">
+          <div className="text-4xl font-black text-white lg:text-8xl fade-in-out h-1/4 ">
             {currentWord}
           </div>
-          <Sound className=" border-2 rounded-full text-white h-12 w-12 flex justify-center  items-center   " />
+          <Sound className="flex items-center justify-center w-12 h-12 text-white border-2 rounded-full " />
         </div>
         <motion.div
           ref={ref1}
           initial={{ opacity: 0 }}
           animate={{ opacity: inView1 ? 1 : 0 }}
           drag="x"
-          className="flex  items-start w-full   "
+          className="flex items-start w-full "
         >
           <Reason />
         </motion.div>
