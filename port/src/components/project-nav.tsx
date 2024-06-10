@@ -21,13 +21,13 @@ const SidebarProjects: React.FC<SidebarProjectsProps> = ({
   return (
     <>
       <h1
-        className={`fixed top-1/4 right-0 z-10 text-xl  cursor-pointer text-white  bg-custom-black backdrop-filter-[blur(10px)] border px-2 py-2 font-thin   rounded-lg transition-all duration-400 ${isMenuOpen ? "opacity-0" : "opacity-100"}`}
+        className={`fixed top-1/4 right-0 z-10 text-xl bg-custom-blue  cursor-pointer text-white  bg-custom-black backdrop-filter-[blur(10px)] border px-2 py-2 font-thin   rounded-lg transition-all duration-400 ${isMenuOpen ? "opacity-0" : "opacity-100"}`}
         onMouseEnter={() => setIsMenuOpen(true)}
       >
         My works
       </h1>
       <div
-        className={`fixed top-1/4 right-0 z-10 max-h-[50vh]   p-5 transition-all duration-400 transform rounded-s-xl border overflow-y-auto bg-custom-black backdrop-filter-[blur(10px)] shadow-2xl flex items-start justify-end ${isMenuOpen ? "-translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"} `}
+        className={`fixed top-1/4 right-0 z-10 max-h-[50vh]    bg-custom-blue  p-5 transition-all duration-400 transform rounded-s-xl border overflow-y-auto bg-custom-black backdrop-filter-[blur(10px)] shadow-2xl flex items-start justify-end ${isMenuOpen ? "-translate-x-0 opacity-100 pointer-events-auto" : "translate-x-full opacity-0 pointer-events-none"} `}
         onMouseLeave={() => setIsMenuOpen(false)}
       >
         <div
