@@ -5,7 +5,6 @@ import Nav_projects from "./project-nav";
 function Projects() {
   const [currentProject, setCurrentProject] = useState(projects[0]); // Set default project
   const [isVisible, setIsVisivle] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleProjectClick = (project: Project) => {
     setCurrentProject(project);
@@ -15,7 +14,7 @@ function Projects() {
   const handleVisible = () => {
     setTimeout(() => {
       setIsVisivle(true);
-    }, 300);
+    }, 1000);
   };
 
   return (
@@ -35,20 +34,13 @@ function Projects() {
                 <h2 className="text-3xl font-black text-center text-white">
                   {project.title}
                 </h2>
-                <>
-                  {!isLoaded && (
-                    // Questo sarà visualizzato mentre l'immagine si sta caricando
-                    <div className="loader"></div>
-                  )}
-                  <img
-                    className="w-full px-3 cursor-pointer rounded-3xl lg:w-4/6 brightness-90"
-                    src={project.img}
-                    alt={project.title}
-                    style={isLoaded ? {} : { display: "none" }} // Nasconde l'immagine finché non è caricata
-                    onLoad={() => setIsLoaded(true)} // Imposta isLoaded a true quando l'immagine è caricata
-                    onClick={() => window.open(project.link, "_blank")}
-                  />
-                </>
+                <img
+                  className={`w-full px-3 cursor-pointer rounded-3xl lg:w-4/6 brightness-90 `}
+                  src={project.img}
+                  alt={project.title}
+                  onClick={() => window.open(project.link, "_blank")}
+                  loading="lazy"
+                />
                 <div className="flex flex-col items-center gap-y-5">
                   <p className="w-4/5 text-xl font-thin text-white text-start ">
                     {project.description.info}
