@@ -7,8 +7,8 @@ interface ButtonProps {
 function Button({ text }: ButtonProps) {
   const handleClick = () => {
     const link = document.createElement("a");
-    link.href = "./cvema.pdf"; // Inserisci qui il percorso al tuo CV
-    link.download = "cvema.pdf"; // Il nome del file che verrà scaricato
+    link.href = "./EmanuelePolizzotto.cv.pdf"; // Inserisci qui il percorso al tuo CV
+    link.download = "cvPolizzottoEmanuele.pdf"; // Il nome del file che verrà scaricato
     link.dispatchEvent(new MouseEvent("click"));
   };
 
