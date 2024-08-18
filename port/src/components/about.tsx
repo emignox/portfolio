@@ -58,7 +58,7 @@ export function About() {
     <>
       <div className="h-screen ">
         <Button />
-        <div className="flex flex-col items-center justify-center h-3/5">
+        <div className="flex flex-col items-center justify-center h-3/5 ">
           <div className="text-4xl font-black text-white lg:text-8xl fade-in-out h-1/4 ">
             {currentWord}
           </div>

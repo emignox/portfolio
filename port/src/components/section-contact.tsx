@@ -55,12 +55,13 @@ function Contact() {
               className="flex items-center justify-center w-32 p-2 mt-2 text-xl text-black transition duration-500 ease-in-out bg-white border group rounded-3xl hover:text-white hover:bg-transparent"
             >
               send{" "}
-              <MdArrowOutward className="mx-3 transition-transform duration-200 transform  group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward className="mx-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </form>
-          <Cv text="Download my Resume" />
+          <div className="hidden md:block"><Cv text="Download my Resume" />
+          </div>
         </div>
-        <div className="flex flex-col items-start justify-start pb-32 my-12 space-y-3 lg:space-y-0 h-1/2 lg:flex lg:flex-row lg:pb-0">
+        <div className="flex flex-col items-start justify-start  my-12 space-y-3 lg:space-y-0 h-1/2 lg:flex lg:flex-row lg:pb-0">
           <h1 className="mx-12 text-xl text-white lg:text-3xl">
             Or reach me through here:
           </h1>

@@ -12,30 +12,6 @@ body {
   overflow-x: hidden; /* Nasconde la barra di scorrimento orizzontale */
   overflow-y: auto;
   font-family: "Roboto", sans-serif;
-  background: rgb(2, 9, 19);
-  background: rgb(2, 9, 19);
-  background: radial-gradient(
-    circle,
-    rgba(2, 9, 19, 1) 10%,
-    rgba(1, 40, 54, 1) 100%
-  );
-  background-size: 200% 200%;
-  animation: gradient 5s ease infinite;
-}
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.name {
-  font-family: "Roboto", sans-serif;
 }
 
 .fade {
@@ -175,26 +151,15 @@ body {
     opacity: 0;
   }
 }
-
-* {
-  box-sizing: border-box;
-}
-.list-items {
-  position: relative;
-  cursor: pointer;
+.projects-container {
+  perspective: 1000px; /* Imposta la distanza della prospettiva */
 }
 
-.list-items::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background: #fff;
-  transition: width 0.2s ease-in-out;
+.project-card {
+  transform-style: preserve-3d;
+  transition: transform 1s;
 }
 
-.list-items:hover::after {
-  width: 100%;
+.project-card:hover {
+  transform: translateZ(100px); /* Aumenta l'illusione di profondità */
 }

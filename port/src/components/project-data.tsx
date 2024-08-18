@@ -56,7 +56,7 @@ export const projects: Project[] = [
   },
   {
     img: afitpilot,
-    title: "Walter Clayton Project afitpilot",
+    title: "Walter Project afitpilot",
     link: "https://www.afitpilot.com",
     description: {
       tech: [

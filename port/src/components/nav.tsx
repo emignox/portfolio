@@ -43,16 +43,16 @@ function Nav({ className }: NavProps) {
 
         <button className="" onClick={handleMenu}>
           {menu ? (
-            <IoCloseSharp className="p-2 m-3 text-5xl text-white border-2 rounded-full" />
+            <IoCloseSharp className="p-2 m-3 text-5xl text-white border-2  border-white rounded-full" />
           ) : (
-            <GiHamburgerMenu className="p-2 m-3 text-5xl text-white border-2 rounded-full" />
+            <GiHamburgerMenu className="p-2 m-3 text-5xl text-white border-white border-2 rounded-full" />
           )}
         </button>
       </div>
       {menu && (
         <div
           onPointerLeave={handleMenu}
-          className={`absolute right-0 bg-custom-blue h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
+          className={`absolute right-0   bg-black h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}
         >
