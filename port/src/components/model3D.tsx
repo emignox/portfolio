@@ -32,7 +32,7 @@ const Background: React.FC = () => {
   water.rotateX((3 * Math.PI) / 2);
   water.position.x = -5;
 
-  useFrame(({ clock }) => {
+  useFrame(({}) => {
     if (waterRef.current) {
       water.material.uniforms["time"].value += 1.0 / 60.0;
     }
