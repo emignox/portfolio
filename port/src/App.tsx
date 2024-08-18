@@ -6,7 +6,7 @@ import About from './pages/aboutMe';
 import Scroll from './pages/projects';
 import Nav from './components/nav';
 import Model from './components/model3D';
-import { Suspense, useState } from 'react';
+import { Suspense} from 'react';
 import CameraSetup from './components/cameraSetup';
 
 
