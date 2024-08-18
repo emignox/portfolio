@@ -43,11 +43,11 @@ const Background: React.FC = () => {
     const hour = new Date().getHours();
 
     if (hour >= 6 && hour < 12) {
-      return [0.1, 0.1, 0];
+      return [1, 0, 1];
     } else if (hour >= 12 && hour < 21) {
-      return [1, 0.05, 0];
+      return [1, 0, 1];
     } else {
-      return [0, 0, 0];
+      return [1, 0, 1];
     }
   };
 
