@@ -19,10 +19,11 @@ import Sound from "./sound";function Projects() {
 
   return (
     <>
+            <Nav_projects onProjectClick={handleProjectClick} />
+
       <div
         className={`flex flex-col items-center justify-center ${isVisible ? "" : "fade-project"}   lg:h-[85vh] pb-10 md:pb-0`}
       >
-        <Nav_projects onProjectClick={handleProjectClick} />
         {projects.map((project, index) => (
           <div key={index} onClick={() => handleProjectClick(project)}>
             {project === currentProject && (

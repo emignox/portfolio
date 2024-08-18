@@ -43,11 +43,11 @@ const Background: React.FC = () => {
     const hour = new Date().getHours();
 
     if (hour >= 6 && hour < 12) {
-      return [0.1, 0, 0];
+      return [0.1, 0.1, 0];
     } else if (hour >= 12 && hour < 21) {
-      return [0.1, 0, 0];
+      return [1, 0.05, 0];
     } else {
-      return [0, 0, 0];
+      return [0.1, 0, 0];
     }
   };
 
@@ -69,7 +69,7 @@ const Background: React.FC = () => {
         <Stars
         radius={500}
         depth={50}
-        count={5000}
+        count={300}
         factor={10}
         saturation={100}
         fade

@@ -8,7 +8,7 @@ interface SidebarProjectsProps {
 }
 
 // Definire e esportare il componente MenuProjectMobile
-
+/// menu mobile 
 export const MenuProjectMobile: React.FC<SidebarProjectsProps> = ({
   onProjectClick,
 }) => {
@@ -21,7 +21,7 @@ export const MenuProjectMobile: React.FC<SidebarProjectsProps> = ({
 
   return (
     <>
-      <ul className="flex gap-3 items-center  overflow-x-auto md:hidden w-full h-auto font-bold text-white p-3">
+      <ul className="flex gap-3  items-center   overflow-x-auto md:hidden w-full h-auto font-bold text-white p-3">
         {projects.map((project, index) => (
           <li
             key={index}
@@ -51,14 +51,14 @@ export const SidebarProjects: React.FC<SidebarProjectsProps> = ({
       setIsMenuOpen(false);
     }, 200);
   };
-
+// menu big screen 
   return (
     <>
       {/* Utilizzo del componente MenuProjectMobile */}
       <MenuProjectMobile onProjectClick={onProjectClick} />
 
       <h1
-        className={`fixed top-[170px] right-0 z-10 text-xl hidden md:block bg-black cursor-pointer text-white bg-custom-black backdrop-filter-[blur(10px)] border px-2 py-2 font-thin rounded-lg transition-all duration-400 ${
+        className={`fixed top-[170px] left-0 z-10 text-xl hidden md:block bg-black cursor-pointer text-white bg-custom-black backdrop-filter-[blur(10px)] bg-opacity-30 border px-2 py-2 font-thin rounded-lg transition-all duration-400 ${
           isMenuOpen ? "opacity-0" : "opacity-100"
         }`}
         onMouseEnter={() => setIsMenuOpen(true)}
@@ -66,10 +66,10 @@ export const SidebarProjects: React.FC<SidebarProjectsProps> = ({
         My works
       </h1>
       <div
-        className={`fixed top-[170px] right-0 z-10 max-h-[50vh] bg-black p-5 transition-all duration-400 transform rounded-s-xl border overflow-y-auto bg-custom-black backdrop-filter-[blur(10px)] shadow-2xl flex items-start justify-end ${
+        className={`fixed top-[170px] left-0 z-10 max-h-[50vh] bg-black p-2 transition-all duration-400 transform rounded-r-xl border overflow-y-auto bg-custom-black backdrop-blur-lg bg-opacity-30 shadow-2xl flex items-start justify-end ${
           isMenuOpen
-            ? "-translate-x-0 opacity-100 pointer-events-auto"
-            : "translate-x-full opacity-0 pointer-events-none"
+            ? "translate-x-0 opacity-100 pointer-events-auto"
+            : "translate-x-0 opacity-0 pointer-events-none"
         }`}
         onMouseLeave={() => setIsMenuOpen(false)}
       >
@@ -94,7 +94,7 @@ export const SidebarProjects: React.FC<SidebarProjectsProps> = ({
             {projects.map((project, index) => (
               <li
                 key={index}
-                className="flex items-center w-full text-lg border-b border-[#444] group list-items font-light"
+                className="flex items-center w-full cursor-pointer text-lg  group  font-light button-border-animate"
                 onClick={() => handleMenu(project)}
               >
                 {project.title}
