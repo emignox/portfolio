@@ -13,7 +13,7 @@ function Button({ text }: ButtonProps) {
   };
 
   return (
-    <div>
+    <div className="flex items-center justify-center">
       <button
         onClick={handleClick}
         className={`button flex items-center justify-center group  `}

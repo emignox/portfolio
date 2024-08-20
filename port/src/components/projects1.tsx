@@ -31,7 +31,7 @@ import Sound from "./sound";function Projects() {
                 key={index}
                 className="flex flex-col items-center justify-center gap-y-6 lg:justify-center lg:items-center lg:px-32 "
               >
-                <h2 className="md:text-5xl font-black text-center text-2xl text-white">
+                <h2 className="text-2xl font-black text-center text-white md:text-5xl">
                   {project.title}
                 </h2>
                 <img
@@ -42,7 +42,7 @@ import Sound from "./sound";function Projects() {
                   loading="lazy"
                 />
                 <div className="flex flex-col items-center gap-y-5">
-                  <p className="w-4/5 text-xl font-thin text-white text-start ">
+                  <p className="w-4/5 font-thin text-white text-md text-start ">
                     {project.description.info}
                   </p>
                   <button>

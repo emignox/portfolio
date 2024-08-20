@@ -16,7 +16,7 @@ useEffect(() => {
     : [0, 15.245, 50];
 
   const otherPosition: [number, number, number] = location.pathname === '/about' 
-    ? [0, 200.245, 50] 
+    ? [0, 70.245, 50] 
     : [0, 15.245, 50];
 
   // Choose the appropriate position based on the route

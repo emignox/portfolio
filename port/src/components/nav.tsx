@@ -15,6 +15,10 @@ function Nav({ className }: NavProps) {
 
   const navigate = useNavigate();
 
+const classList = "flex items-center mx-2 md:mx-0 justify-start my-5 cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
+const classIcon = "ml-3 hidden md:block transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1"
+const classiconMenu = "p-2 m-3 text-5xl text-white border-2 border-white rounded-full"
+
   const handleMenu = () => {
     if (menu) {
       setIsFadingOut(true);
@@ -43,40 +47,46 @@ function Nav({ className }: NavProps) {
 
         <button className="" onClick={handleMenu}>
           {menu ? (
-            <IoCloseSharp className="p-2 m-3 text-5xl text-white border-2  border-white rounded-full" />
+            <IoCloseSharp className={classiconMenu} />
           ) : (
-            <GiHamburgerMenu className="p-2 m-3 text-5xl text-white border-white border-2 rounded-full" />
+            <GiHamburgerMenu className={classiconMenu} />
           )}
         </button>
       </div>
       {menu && (
         <div
           onPointerLeave={handleMenu}
-          className={`absolute right-0   bg-black h-auto flex p-5 justify-start items-center  z-30 rounded-xl w-52  ${
+          className={`absolute w-[100%] md:absolute  md:right-0    md:w-[10%]   bg-black bg-opacity-30  backdrop-blur-lg h-auto flex p-5 justify-center items-center  z-30   rounded-2xl ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}
         >
-          <ul className="flex flex-col items-start justify-start text-xl font-black text-white ">
+          <ul className="flex flex-row items-start justify-start text-xl font-black text-white md:flex md:flex-col md:justify-center md:items-start ">
             <li
-              onClick={() => navigate("/")}
-              className="flex items-center justify-start my-5 group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
+              onClick={() => {navigate("/") }}
+              className ={`${classList}`}
             >
               Home
-              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward 
+              className={classIcon}
+              />
             </li>
             <li
               onClick={() => navigate("/about")}
-              className="flex items-center justify-start my-5 text-justify cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
+              className ={`${classList}`}
             >
-              AboutMe
-              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </li>
+              About
+              <MdArrowOutward 
+              className={classIcon}
+              />
+                          </li>
             <li
               onClick={() => navigate("/scroll")}
-              className="flex items-center justify-start my-5 cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
+              className ={`${classList}`}
             >
               Projects
-              <MdArrowOutward className="ml-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <MdArrowOutward 
+              className={classIcon}
+              />            
             </li>
           </ul>
         </div>

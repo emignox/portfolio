@@ -67,9 +67,9 @@ const Background: React.FC = () => {
         <>
         <Moon />
         <Stars
-        radius={500}
+        radius={2000}
         depth={50}
-        count={300}
+        count={1000}
         factor={10}
         saturation={100}
         fade
