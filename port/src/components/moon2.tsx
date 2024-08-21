@@ -32,7 +32,7 @@ function Moon() {
         setMoonMesh(moon);
 
         // Create a directional light
-        const directionalLight = new DirectionalLight(0xffffff, 2);
+        const directionalLight = new DirectionalLight(0xffffff, 1);
         directionalLight.position.set(500, 400, -200); // Position the light
         directionalLight.target = moon; // Point the light at the moon
         scene.add(directionalLight);
@@ -48,7 +48,7 @@ function Moon() {
 
   if (!moonMesh) return null;
 
-  return <primitive object={moonMesh} position={[300, 200, -400]} />;
+  return <primitive object={moonMesh} position={[800, 500, -1000]} />;
 }
 
 export default Moon;

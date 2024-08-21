@@ -9,14 +9,14 @@ function CloudWithLoop({ position, opacity, color }: { position: [number, number
 
   useFrame(() => {
     if (ref.current) {
-      ref.current.position.z -= 2;
-      if (ref.current.position.z < -900) {
-        ref.current.position.z = 300;
+      ref.current.position.z -= 0.5;
+      if (ref.current.position.z < -500) {
+        ref.current.position.z = 5;
       }
     }
   });
 
-  const scaleRandom = Math.random() * 2 + 40;
+  const scaleRandom = Math.random() * 2 + 30;
   return (
     <Cloud ref={ref} position={position} scale={[scaleRandom, scaleRandom, scaleRandom]} speed={0.1} opacity={opacity} color={color} />
   );
@@ -28,7 +28,7 @@ const getTimePreset = () => {
   if (hour >= 6 && hour < 16) {
     return { sunPosition: [1, 0.05, 0], turbidity: 10, rayleigh: 3, mieCoefficient: 0.005, mieDirectionalG: 0.7 };
   } else if (hour >= 16 && hour < 21) {
-    return { sunPosition: [-1, 0.01, -0.1], turbidity: 32, rayleigh: 1.3, mieCoefficient: 0.01, mieDirectionalG: 0.8 };
+    return { sunPosition: [5, 0.01, -0.1], turbidity: 32, rayleigh: 1.3, mieCoefficient: 0.01, mieDirectionalG: 0.8 };
   } else {
     return { sunPosition: [0, -1, -1], turbidity: 10, rayleigh: 0.5, mieCoefficient: 0.005, mieDirectionalG: 0.7 };
   }
@@ -100,7 +100,7 @@ function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCame
       )}
       {afternoon ? (
         <>
-          <CloudWithLoop position={[900,22, 800]} opacity={0.2} color="#FBD296" />
+          <CloudWithLoop position={[900,22, 8000]} opacity={0.2} color="#FBD296" />
           <CloudWithLoop position={[-100, -444, 700]} opacity={0.2} color="#FBD296" />
           <CloudWithLoop position={[300, -100, 600]} opacity={0.1} color="#FBD296" />
           <CloudWithLoop position={[-100, 55, 500]} opacity={0.3} color="#FBD296" />
@@ -121,30 +121,30 @@ function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCame
         </>
       ) : (
         <>
-          <CloudWithLoop position={[-150, 220, 800]} opacity={0.2} color="#FAEEEE" />
+          <CloudWithLoop position={[-150, 220, 50]} opacity={0.2} color="#FAEEEE" />
           <CloudWithLoop position={[322, -440, 700]} opacity={0.2} color="#FAEEEE" />
           <CloudWithLoop position={[250, -320, 600]} opacity={0.1} color="#FAEEEE" />
           <CloudWithLoop position={[-420, 550, 500]} opacity={0.3} color="#FAEEEE" />
           <CloudWithLoop position={[300, -125, 400]} opacity={0.1} color="#FAEEEE" />
-          <CloudWithLoop position={[220, 540, 300]} opacity={0.4} color="#FAEEEE" />
+          <CloudWithLoop position={[220, 540, 100]} opacity={0.4} color="#FAEEEE" />
           <CloudWithLoop position={[-100, 132, 200]} opacity={0.1} color="#FAEEEE" />
           <CloudWithLoop position={[382, 110, 700]} opacity={0.1} color="#FAEEEE" />
           <CloudWithLoop position={[751, -110, 600]} opacity={0.2} color="#FAEEEE" />
           <CloudWithLoop position={[-243, 205, 500]} opacity={0.5} color="#FAEEEE" />
           <CloudWithLoop position={[30, -115, 400]} opacity={0.1} color="#FAEEEE" />
           <CloudWithLoop position={[430, 10, 300]} opacity={0.9} color="#FAEEEE" />
-          <CloudWithLoop position={[-150, 0, 800]} opacity={0.2} color="#FAEEEE" />
+          <CloudWithLoop position={[-150, 0, 400]} opacity={0.2} color="#FAEEEE" />
           <CloudWithLoop position={[82, -44, 700]} opacity={0.2} color="#FAEEEE" />
           <CloudWithLoop position={[235, -132, 600]} opacity={0.1} color="#FAEEEE" />
-          <CloudWithLoop position={[-412, 55, 500]} opacity={0.3} color="#FAEEEE" />
-          <CloudWithLoop position={[65, -225, 400]} opacity={0.1} color="#FAEEEE" />
+          <CloudWithLoop position={[-412, 55, 200]} opacity={0.3} color="#FAEEEE" />
+          <CloudWithLoop position={[65, -225, 100]} opacity={0.1} color="#FAEEEE" />
           <CloudWithLoop position={[222, 150, 300]} opacity={0.4} color="#FAEEEE" />
-          <CloudWithLoop position={[-100, 32, 200]} opacity={0.1} color="#FAEEEE" />
-          <CloudWithLoop position={[82, 120, 700]} opacity={0.1} color="#FAEEEE" />
-          <CloudWithLoop position={[320, -110, 600]} opacity={0.2} color="#FAEEEE" />
-          <CloudWithLoop position={[-182, 5, 500]} opacity={0.5} color="#FAEEEE" />
-          <CloudWithLoop position={[310, -415, 400]} opacity={0.1} color="#FAEEEE" />
-          <CloudWithLoop position={[432, 150, 300]} opacity={0.9} color="#FAEEEE" />
+          <CloudWithLoop position={[-100, 32, 100]} opacity={0.1} color="#FAEEEE" />
+          <CloudWithLoop position={[82, 120, 500]} opacity={0.1} color="#FAEEEE" />
+          <CloudWithLoop position={[320, -110, 100]} opacity={0.2} color="#FAEEEE" />
+          <CloudWithLoop position={[-182, 5, 300]} opacity={0.5} color="#FAEEEE" />
+          <CloudWithLoop position={[310, -415, 100]} opacity={0.1} color="#FAEEEE" />
+          <CloudWithLoop position={[432, 150, 50]} opacity={0.9} color="#FAEEEE" />
         </>
       )}
     </>
@@ -166,7 +166,7 @@ const HomeComponent3D: React.FC = () => {
         opacity: 1,
         filter: 'brightness(90%)'
       }}
-      camera={{ position: [0, 0, 10], fov: 75 }}
+      camera={{ position: [0, 0, 10], fov: 75,  far:5000}}
       onCreated={({ camera }) => {
         cameraRef.current = camera as THREE.PerspectiveCamera;
       }}
