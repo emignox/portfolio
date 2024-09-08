@@ -15,6 +15,7 @@ import { SiRedux } from "react-icons/si";
 import afitpilot from "/afitpilot.png";
 import { GiJesterHat } from "react-icons/gi";
 import akwanza from "/akwanza.png";
+import NoteBook from '/E-note.png'
 
 export interface Project {
   img: string;
@@ -28,6 +29,16 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    img: NoteBook,
+    title: "Notebook E-Note",
+    link: "https://notes-n0w5rvyhz-emanueles-projects-91ff5b21.vercel.app/",
+    description: {
+      tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />, <SiRedux />],
+      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
+      info: "A full-stack app built with NX/Nest.js/MikroORM/GraphQL/Apollo Server for the backend, and NX/Vite/React.ts for the frontend. This project was created to improve my full-stack skills by using new technologies such as Nest.js, MikroORM, and GraphQL to make the backend structure more precise. I also used GraphQL Context and Subscriptions for real-time updates in the app, handled on the frontend side.",
+    },
+  },
   {
     img: Coach,
     title: "My coaching website",
