@@ -32,7 +32,7 @@ export const projects: Project[] = [
   {
     img: NoteBook,
     title: "Notebook E-Note",
-    link: "https://notes-n0w5rvyhz-emanueles-projects-91ff5b21.vercel.app/",
+    link: "https://notes-nine-sigma.vercel.app/",
     description: {
       tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />, <SiRedux />],
       hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
