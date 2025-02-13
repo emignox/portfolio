@@ -1,7 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "/logo1.png";
+import logo from "/realLogo.svg";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdArrowOutward } from "react-icons/md";
 
@@ -15,9 +15,12 @@ function Nav({ className }: NavProps) {
 
   const navigate = useNavigate();
 
-const classList = "flex items-center mx-2 md:mx-0 justify-start my-5 cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300"
-const classIcon = "ml-3 hidden md:block transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1"
-const classiconMenu = "p-2 m-3 text-5xl text-white border-2 border-white rounded-full"
+  const classList =
+    "flex items-center mx-2 md:mx-0 justify-start my-5 cursor-pointer group opacity-80 lg:opacity-75 lg:hover:opacity-100 lg:transition lg:duration-300";
+  const classIcon =
+    "ml-3 hidden md:block transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1";
+  const classiconMenu =
+    "p-2 m-3 text-5xl text-white border-2 border-white rounded-full";
 
   const handleMenu = () => {
     if (menu) {
@@ -43,7 +46,7 @@ const classiconMenu = "p-2 m-3 text-5xl text-white border-2 border-white rounded
       <div
         className={`flex justify-between  items-center   bg-transparent ${className}`}
       >
-        <img className="w-1/5 lg:w-20 lg:h-20" src={logo} alt="" />
+        <img className="w-1/5 pl-5 lg:w-24 lg:h-24" src={logo} alt="" />
 
         <button className="" onClick={handleMenu}>
           {menu ? (
@@ -62,31 +65,21 @@ const classiconMenu = "p-2 m-3 text-5xl text-white border-2 border-white rounded
         >
           <ul className="flex flex-row items-start justify-start text-xl font-black text-white md:flex md:flex-col md:justify-center md:items-start ">
             <li
-              onClick={() => {navigate("/") }}
-              className ={`${classList}`}
+              onClick={() => {
+                navigate("/");
+              }}
+              className={`${classList}`}
             >
               Home
-              <MdArrowOutward 
-              className={classIcon}
-              />
+              <MdArrowOutward className={classIcon} />
             </li>
-            <li
-              onClick={() => navigate("/about")}
-              className ={`${classList}`}
-            >
+            <li onClick={() => navigate("/about")} className={`${classList}`}>
               About
-              <MdArrowOutward 
-              className={classIcon}
-              />
-                          </li>
-            <li
-              onClick={() => navigate("/scroll")}
-              className ={`${classList}`}
-            >
+              <MdArrowOutward className={classIcon} />
+            </li>
+            <li onClick={() => navigate("/scroll")} className={`${classList}`}>
               Projects
-              <MdArrowOutward 
-              className={classIcon}
-              />            
+              <MdArrowOutward className={classIcon} />
             </li>
           </ul>
         </div>

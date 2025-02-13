@@ -3,6 +3,7 @@
  import CameraSetup from './components/cameraSetup';
  import { Environment, OrbitControls } from '@react-three/drei';
  import Model from './components/model3D';
+ 
 
  const getTimePreset = (): 'dawn' | 'sunset' | 'forest' => {
     const hour = new Date().getHours();
@@ -39,7 +40,8 @@
           <Model />
           <Environment preset={getTimePreset()} />
         </Suspense>
-      </Canvas></>
+      </Canvas>
+      </>
     )
  }
  export default ModelSea;

@@ -6,7 +6,7 @@ import Button from "./cv-button";
 const words = () => {
   return (
     <h1 className="text-4xl font-black text-white lg:text-6xl fade h-1/4 ">
-      Frontend developer
+      Fullstack Developer
     </h1>
   );
 };

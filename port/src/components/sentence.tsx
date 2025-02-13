@@ -12,12 +12,13 @@ function Sentence() {
       initial={{ opacity: 0 }}
       animate={{ opacity: inView ? 0.8 : 0 }}
       transition={{ duration: 2 }}
-      className=" text-center flex items-center justify-center text-white   h-screen "
+      className="flex items-center justify-center h-screen text-center text-white "
     >
-      <h1 className="w-5/6  font-bold lg:text-5xl lg:w-2/3 text-left text-3xl lg:text-justify  ">
-        Much like an artist paints with colors on canvas, a front-end developer
-        paints with code on the web, crafting digital experiences that are
-        interactive works of art.
+      <h1 className="w-5/6 text-3xl font-bold text-left lg:text-5xl lg:w-2/3 lg:text-justify ">
+        "Fullstack developer skilled in Tailwind, React, and Node.js, with
+        extensive professional experience in Odoo implementations, and
+        proficient in Python, ready to deliver innovative, dynamic, and
+        efficient web solutions tailored to business needs."
       </h1>
     </motion.div>
   );
