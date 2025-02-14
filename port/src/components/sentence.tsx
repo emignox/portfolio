@@ -15,10 +15,10 @@ function Sentence() {
       className="flex items-center justify-center h-screen text-center text-white "
     >
       <h1 className="w-5/6 text-3xl font-bold text-left lg:text-5xl lg:w-2/3 lg:text-justify ">
-        "Fullstack developer skilled in Tailwind, React, and Node.js, with
+        Fullstack developer skilled in React, Node.js and Tailwind, with
         extensive professional experience in Odoo implementations, and
         proficient in Python, ready to deliver innovative, dynamic, and
-        efficient web solutions tailored to business needs."
+        efficient web solutions tailored to business needs.
       </h1>
     </motion.div>
   );

@@ -48,12 +48,30 @@ const Background: React.FC = () => {
   const getTimePreset = () => {
     const hour = new Date().getHours();
 
-    if (hour >= 6 && hour < 12) {
-      return [1, 0, 1];
-    } else if (hour >= 12 && hour < 21) {
-      return [40, 0, 1];
+    if (hour >= 6 && hour < 16) {
+      return {
+        sunPosition: [1, 0.005, 0],
+        turbidity: 10,
+        rayleigh: 0,
+        mieCoefficient: 0.005,
+        mieDirectionalG: 0.7,
+      };
+    } else if (hour >= 16 && hour < 21) {
+      return {
+        sunPosition: [5, 0.005, -0.1],
+        turbidity: 32,
+        rayleigh: 9,
+        mieCoefficient: 0.01,
+        mieDirectionalG: 0.8,
+      };
     } else {
-      return [0, 0, 0];
+      return {
+        sunPosition: [0, 0, 0],
+        turbidity: 10,
+        rayleigh: 0.5,
+        mieCoefficient: 0.005,
+        mieDirectionalG: 0.7,
+      };
     }
   };
 
@@ -63,11 +81,13 @@ const Background: React.FC = () => {
     <>
       <primitive object={water} ref={waterRef} />
       <Sky
-        sunPosition={timePreset as [number, number, number]}
-        inclination={0.5} // Imposta l'inclinazione per il giorno
-        azimuth={0.5} // Imposta l'azimuth per il giorno
+        sunPosition={timePreset.sunPosition as [number, number, number]}
+        turbidity={timePreset.turbidity}
+        rayleigh={timePreset.rayleigh}
+        mieCoefficient={timePreset.mieCoefficient}
+        mieDirectionalG={timePreset.mieDirectionalG}
       />
-      {timePreset[0] === 0 && timePreset[1] === 0 && timePreset[2] === 0 && (
+      {timePreset.sunPosition[0] === 0 && (
         <>
           <Moon />
           <Stars

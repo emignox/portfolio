@@ -1,21 +1,37 @@
-import { Canvas,} from '@react-three/fiber';
-import {  Sky, Stars, OrbitControls } from '@react-three/drei';
-import { useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import Moon from './moon2';
-import GenerateClouds from './clouds'
-
-
+import { Canvas } from "@react-three/fiber";
+import { Sky, Stars, OrbitControls } from "@react-three/drei";
+import { useRef, useEffect } from "react";
+import * as THREE from "three";
+import Moon from "./moon2";
+import GenerateClouds from "./clouds";
 
 const getTimePreset = () => {
   const hour = new Date().getHours();
-  
+
   if (hour >= 6 && hour < 16) {
-    return { sunPosition: [1, 0.05, 0], turbidity: 10, rayleigh: 3, mieCoefficient: 0.005, mieDirectionalG: 0.7 };
+    return {
+      sunPosition: [1, 0.05, 0],
+      turbidity: 10,
+      rayleigh: 3,
+      mieCoefficient: 0.005,
+      mieDirectionalG: 0.7,
+    };
   } else if (hour >= 16 && hour < 21) {
-    return { sunPosition: [5, 0.01, -0.1], turbidity: 32, rayleigh: 1.3, mieCoefficient: 0.01, mieDirectionalG: 0.8 };
+    return {
+      sunPosition: [5, 0.01, -0.1],
+      turbidity: 32,
+      rayleigh: 30,
+      mieCoefficient: 0.01,
+      mieDirectionalG: 0.8,
+    };
   } else {
-    return { sunPosition: [0, -1, -1], turbidity: 10, rayleigh: 0.5, mieCoefficient: 0.005, mieDirectionalG: 0.7 };
+    return {
+      sunPosition: [0, -1, -1],
+      turbidity: 10,
+      rayleigh: 0.5,
+      mieCoefficient: 0.005,
+      mieDirectionalG: 0.7,
+    };
   }
 };
 
@@ -24,16 +40,21 @@ const isNight = () => {
   return hour >= 21 || hour < 6;
 };
 
-const isAfternoon = () => { 
+const isAfternoon = () => {
   const hour = new Date().getHours();
   return hour >= 16 && hour < 21;
 };
 
-function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCamera> }) {
+function Scene({
+  cameraRef,
+}: {
+  cameraRef: React.RefObject<THREE.PerspectiveCamera>;
+}) {
   const night = isNight();
   const afternoon = isAfternoon();
-  
-  const { sunPosition, turbidity, rayleigh, mieCoefficient, mieDirectionalG } = getTimePreset();
+
+  const { sunPosition, turbidity, rayleigh, mieCoefficient, mieDirectionalG } =
+    getTimePreset();
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -51,9 +72,9 @@ function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCame
       }
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener("mousemove", handleMouseMove);
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener("mousemove", handleMouseMove);
     };
   }, [cameraRef]);
 
@@ -69,7 +90,11 @@ function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCame
         mieDirectionalG={mieDirectionalG}
       />
       <ambientLight intensity={night ? 1 : 1.9} />
-      <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableRotate={false}
+      />
       {night && (
         <>
           <Stars
@@ -85,11 +110,11 @@ function Scene({ cameraRef }: { cameraRef: React.RefObject<THREE.PerspectiveCame
       )}
       {afternoon ? (
         <>
-          <GenerateClouds count={20} />
+          <GenerateClouds count={50} />
         </>
       ) : (
         <>
-          <GenerateClouds count={20} />
+          <GenerateClouds count={50} />
         </>
       )}
     </>
@@ -102,16 +127,16 @@ const HomeComponent3D: React.FC = () => {
   return (
     <Canvas
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
+        width: "100vw",
+        height: "100vh",
         zIndex: -1,
         opacity: 1,
-        filter: 'brightness(90%)'
+        filter: "brightness(90%)",
       }}
-      camera={{ position: [0, 0, 10], fov: 75,  far:5000}}
+      camera={{ position: [0, 0, 10], fov: 75, far: 5000 }}
       onCreated={({ camera }) => {
         cameraRef.current = camera as THREE.PerspectiveCamera;
       }}
