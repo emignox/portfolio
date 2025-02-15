@@ -110,11 +110,11 @@ function Scene({
       )}
       {afternoon ? (
         <>
-          <GenerateClouds count={50} />
+          <GenerateClouds count={20} />
         </>
       ) : (
         <>
-          <GenerateClouds count={50} />
+          <GenerateClouds count={20} />
         </>
       )}
     </>

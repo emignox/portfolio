@@ -63,7 +63,7 @@ function Nav({ className }: NavProps) {
       {menu && (
         <div
           onPointerLeave={handleMenu}
-          className={`absolute w-[100%] md:absolute  md:right-2    md:w-auto   bg-black bg-opacity-30  backdrop-blur-sm h-auto flex p-5 justify-center items-center  z-30   rounded-2xl ${
+          className={`absolute w-[100%] md:fixed  md:right-2    md:w-auto   bg-black bg-opacity-30  backdrop-blur-sm h-auto flex p-5 justify-center items-center  z-30   rounded-2xl ${
             menu ? (isFadingOut ? "fade-out" : "fade") : ""
           }`}
         >
