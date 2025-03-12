@@ -61,32 +61,37 @@ function Nav({ className }: NavProps) {
         </button>
       </div>
       {menu && (
-        <div
-          onPointerLeave={handleMenu}
-          className={`absolute w-[100%] md:fixed  md:right-2    md:w-auto   bg-black bg-opacity-30  backdrop-blur-sm h-auto flex p-5 justify-center items-center  z-30   rounded-2xl ${
-            menu ? (isFadingOut ? "fade-out" : "fade") : ""
-          }`}
-        >
-          <ul className="flex flex-row items-start justify-start text-xl font-black text-white md:row md:flex-row md:justify-center md:items-start ">
-            <li
-              onClick={() => {
-                navigate("/");
-              }}
-              className={`${classList}`}
-            >
-              Home
-              <MdArrowOutward className={classIcon} />
-            </li>
-            <li onClick={() => navigate("/about")} className={`${classList}`}>
-              About
-              <MdArrowOutward className={classIcon} />
-            </li>
-            <li onClick={() => navigate("/scroll")} className={`${classList}`}>
-              Projects
-              <MdArrowOutward className={classIcon} />
-            </li>
-          </ul>
-        </div>
+        <>
+          <div
+            onPointerLeave={handleMenu}
+            className={`absolute w-[100%] md:fixed  md:right-2  flex-col   md:w-auto   bg-black bg-opacity-30  backdrop-blur-sm h-auto flex p-5 justify-center items-center  z-30   rounded-2xl ${
+              menu ? (isFadingOut ? "fade-out" : "fade") : ""
+            }`}
+          >
+            <ul className="flex flex-row items-start justify-start text-xl font-black text-white md:row md:flex-row md:justify-center md:items-start ">
+              <li
+                onClick={() => {
+                  navigate("/");
+                }}
+                className={`${classList}`}
+              >
+                Home
+                <MdArrowOutward className={classIcon} />
+              </li>
+              <li onClick={() => navigate("/about")} className={`${classList}`}>
+                About
+                <MdArrowOutward className={classIcon} />
+              </li>
+              <li
+                onClick={() => navigate("/scroll")}
+                className={`${classList}`}
+              >
+                Projects
+                <MdArrowOutward className={classIcon} />
+              </li>
+            </ul>
+          </div>
+        </>
       )}
     </>
   );

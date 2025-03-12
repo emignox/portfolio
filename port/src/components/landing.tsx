@@ -28,13 +28,6 @@ export function Landing() {
         <div className="flex flex-col items-center justify-center space-y-10 my-52">
           {words()}
           {name()}
-
-          {/* <button
-            onClick={() => Navigate("/scroll")}
-            className="flex items-center justify-center button "
-          >
-            See my projects <MdArrowOutward className="mx-1 " />{" "}
-          </button> */}
           <Button text="Download my resume" />
           <Sound className="" />
         </div>

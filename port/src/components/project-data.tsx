@@ -15,7 +15,7 @@ import { SiRedux } from "react-icons/si";
 import afitpilot from "/afitpilot.png";
 import { GiJesterHat } from "react-icons/gi";
 import akwanza from "/akwanza.png";
-import NoteBook from '/E-note.png'
+import NoteBook from "/E-note.png";
 
 export interface Project {
   img: string;
@@ -51,7 +51,7 @@ export const projects: Project[] = [
   },
   {
     img: akwanza,
-    title: "Intern Project akwnaza",
+    title: "Intern Project akwanza",
     link: "https://www.akwanza.com",
     description: {
       tech: [
