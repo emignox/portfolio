@@ -62,17 +62,17 @@ function Contact() {
             <Cv text="Download my Resume" />
           </div>
         </div>
-        <div className="flex flex-col items-start justify-end my-1 space-y-5 lg:space-y-0 h-1/2 lg:flex lg:my-0 lg:justify-start lg:flex-row lg:pb-0">
-          <h1 className="mx-5 text-xl text-white lg:text-3xl">
+        <div className=" w-screen h-auto flex flex-col items-start justify-end my-1 space-y-5 lg:space-y-0  lg:flex  lg:justify-start lg:flex-row lg:pb-0">
+          <h1 className="mx-5 text-xl md:text-3xl text-white lg:text-3xl">
             Or reach me through here:
           </h1>
 
           {links.map((link, index) => (
             <ul className="" key={index}>
               <a href={link.url}>
-                <li className="flex items-center justify-start mx-5 text-3xl text-white border-b cursor-pointer mx-22 group">
+                <li className="flex items-center justify-start mx-5 text-3xl text-white cursor-pointer mx-22 group">
                   {link.name}
-                  <MdArrowOutward className="mx-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <MdArrowOutward className="mx-3 transition-transform duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:-rotate-45  " />
                 </li>
               </a>
             </ul>
