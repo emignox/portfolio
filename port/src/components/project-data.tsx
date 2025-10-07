@@ -3,7 +3,7 @@ import resto from "/restoo.png";
 import poke from "/poke-api.png";
 import { IoLogoJavascript } from "react-icons/io5";
 import { FaReact } from "react-icons/fa";
-import { SiTailwindcss } from "react-icons/si";
+import { SiPython, SiTailwindcss } from "react-icons/si";
 import whisper from "/whisper.png";
 import { FaNodeJs } from "react-icons/fa";
 import { SiMongodb } from "react-icons/si";
@@ -16,6 +16,7 @@ import afitpilot from "/afitpilot.png";
 import { GiJesterHat } from "react-icons/gi";
 import akwanza from "/akwanza.png";
 import NoteBook from "/E-note.png";
+import Nemei from "/nemei_app.png";
 
 export interface Project {
   img: string;
@@ -29,6 +30,21 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    img: Nemei,
+    title: "Nemei App",
+    link: "https://nemei.app/landingPage",
+    description: {
+      tech: [
+        <FaReact />,
+        <IoLogoJavascript />,
+        <SiTailwindcss />,
+        <SiPython />,
+      ],
+      hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
+      info: "Personalized fitness app combining AI-generated workouts from certified trainers with comprehensive nutrition tracking. Features include automatic macro calculations, exercise video demonstrations, and a flexible calorie-based approach. Professional-grade fitness tools requiring minimal user effort.",
+    },
+  },
   {
     img: NoteBook,
     title: "Notebook E-Note",
