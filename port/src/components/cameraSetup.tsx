@@ -30,7 +30,7 @@ useEffect(() => {
     const lerpFactor = 0.05; // Adjust this value to control the speed of the transition
 
     camera.position.lerp(targetPosition.current, lerpFactor);
-    camera.lookAt(500, 0, 0); // Optional: make the camera look at the origin (or any other point)
+    camera.lookAt(500, 0, 0);
 
     currentPosition.current.copy(camera.position);
   });

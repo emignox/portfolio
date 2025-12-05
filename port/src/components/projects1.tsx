@@ -27,7 +27,6 @@ function Projects() {
   return (
     <>
       <Nav_projects onProjectClick={handleProjectClick} />
-
       <div
         className={`flex flex-col items-center justify-center ${
           isVisible ? "fade-in" : "fade-project"

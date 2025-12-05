@@ -29,12 +29,15 @@ function CloudWithLoop({
     }
   });
 
-  const scaleRandom = Math.random() * 2 + 30;
+  const scaleX = Math.random() * 15 + 25;
+  const scaleY = Math.random() * 10 + 20;
+  const scaleZ = Math.random() * 10 + 15;
+
   return (
     <Cloud
       ref={ref}
       position={position}
-      scale={[scaleRandom, scaleRandom, scaleRandom]}
+      scale={[scaleX, scaleY, scaleZ]}
       speed={0.1}
       opacity={opacity}
       color={color}
