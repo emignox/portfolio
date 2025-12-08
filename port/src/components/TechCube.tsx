@@ -123,18 +123,6 @@ const TechCube: React.FC<TechCubeProps> = ({
           ))}
         </mesh>
 
-        {/* Effetto glow - un solo layer ottimizzato */}
-        <mesh>
-          <boxGeometry args={[size * 1.08, size * 1.08, size * 1.08]} />
-          <meshBasicMaterial
-            color="#61DAFB"
-            transparent
-            opacity={0.12}
-            side={THREE.BackSide}
-            depthWrite={false}
-          />
-        </mesh>
-
         {/* Testi sulle facce */}
         {/* Front - React */}
         <group position={[0, 0, size / 2 + 1]}>
@@ -190,11 +178,11 @@ const TechCube: React.FC<TechCubeProps> = ({
         <group position={[size / 2 + 1, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
           <Text
             position={[0, 5, 0]}
-            fontSize={20}
+            fontSize={15}
             color="#714B67"
             anchorX="center"
             anchorY="middle"
-            fontWeight="black"
+            fontWeight="bold"
           >
             O
           </Text>
@@ -309,13 +297,7 @@ const TechCube: React.FC<TechCubeProps> = ({
             itemSize={3}
           />
         </bufferGeometry>
-        <pointsMaterial
-          size={2}
-          color="#FFFFFF"
-          transparent
-          opacity={0.8}
-          sizeAttenuation
-        />
+        <pointsMaterial size={2} color="#FFFFFF" sizeAttenuation />
       </points>
     </group>
   );

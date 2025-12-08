@@ -4,6 +4,8 @@ import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import Moon from "./moon2";
 import GenerateClouds from "./clouds";
+import FloatingRocket from "./FloatingRocket";
+import Text3DFullstack from "./Text3DFullstack";
 
 const getTimePreset = () => {
   const hour = new Date().getHours();
@@ -95,6 +97,13 @@ function Scene({
         enablePan={false}
         enableRotate={false}
       />
+
+      {/* Razzo che fluttua nel cielo - centrato davanti alla camera */}
+      <FloatingRocket position={[0, 10, -60]} scale={2.5} />
+
+      {/* Testo 3D "Fullstack Developer" - più distante del razzo */}
+      <Text3DFullstack position={[0, 10, -120]} />
+
       {night && (
         <>
           <Stars
