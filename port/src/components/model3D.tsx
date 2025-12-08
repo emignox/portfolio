@@ -11,6 +11,7 @@ import {
 import { Water } from "three-stdlib";
 import Moon from "./moon";
 import * as THREE from "three";
+import TechCube from "./TechCube";
 
 // Nuvola custom con sprite circolari realistici
 const CustomCloud: React.FC<{
@@ -246,6 +247,10 @@ const Background: React.FC = () => {
 
   return (
     <>
+      {/* Cubo con tecnologie interattivo */}
+      {/* Camera è a [0, 15, 50] e guarda verso [500, 0, 0], quindi posiziono il cubo sulla linea visuale */}
+      <TechCube position={[200, 15, 20]} size={60} />
+
       {/* Luce ambientale per illuminare la scena */}
       <ambientLight intensity={0.3} />
 
