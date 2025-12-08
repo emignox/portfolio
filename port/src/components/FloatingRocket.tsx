@@ -81,9 +81,9 @@ const FloatingRocket: React.FC<FloatingRocketProps> = ({
 
       // Applica rotazione smooth con lerp (più reattivo)
       rocketRef.current.rotation.y +=
-        (targetRotation.current.y - rocketRef.current.rotation.y) * 0.15;
+        (targetRotation.current.y - rocketRef.current.rotation.y) * 0.1;
       rocketRef.current.rotation.x +=
-        (targetRotation.current.x - rocketRef.current.rotation.x) * 0.15;
+        (targetRotation.current.x - rocketRef.current.rotation.x) * 0;
 
       // Oscillazione più pronunciata sul roll
       rocketRef.current.rotation.z =
