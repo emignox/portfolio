@@ -1,7 +1,7 @@
 import { CiWavePulse1 } from "react-icons/ci";
 import { GoDash } from "react-icons/go";
 import { useState, useEffect } from "react";
-import soundFile from "/space-sound.mp3";
+import soundFile from "/space-sound.m4a";
 import { useLocation } from "react-router-dom";
 
 interface SoundProps {

@@ -12,6 +12,13 @@ function Moon() {
 
   useEffect(() => {
     const textureLoader = new TextureLoader();
+    const moonSize = 100;
+    const moonGeometry = new SphereGeometry(moonSize, 32, 32);
+
+    const createFallback = () => {
+      const fallbackMaterial = new MeshPhongMaterial({ color: 0xaaaaaa, shininess: 0 });
+      setMoonMesh(new Mesh(moonGeometry, fallbackMaterial));
+    };
 
     textureLoader.load(textureURL, function (texture) {
       textureLoader.load(displacementURL, function (displacementMap) {
@@ -24,12 +31,9 @@ function Moon() {
           reflectivity: 0,
           shininess: 0,
         });
-
-        const moonSize = 100;
-        const moonGeometry = new SphereGeometry(moonSize, 32, 32);
         setMoonMesh(new Mesh(moonGeometry, moonMaterial));
-      });
-    });
+      }, undefined, createFallback);
+    }, undefined, createFallback);
   }, []);
 
   useFrame(() => {

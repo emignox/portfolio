@@ -1,22 +1,22 @@
-import fresh from "/fresh1.png";
-import resto from "/restoo.png";
-import poke from "/poke-api.png";
+import fresh from "/fresh1.webp";
+import resto from "/restoo.webp";
+import poke from "/poke-api.webp";
 import { IoLogoJavascript } from "react-icons/io5";
 import { FaReact } from "react-icons/fa";
 import { SiPython, SiTailwindcss } from "react-icons/si";
-import whisper from "/whisper.png";
+import whisper from "/whisper.webp";
 import { FaNodeJs } from "react-icons/fa";
 import { SiMongodb } from "react-icons/si";
 import { ReactElement } from "react";
-import Codex from "/codex.png";
-import Weibo from "/weibo.png";
-import Coach from "/coach.png";
+import Codex from "/codex.webp";
+import Weibo from "/weibo.webp";
+import Coach from "/coach.webp";
 import { SiRedux } from "react-icons/si";
-import afitpilot from "/afitpilot.png";
+import afitpilot from "/afitpilot.webp";
 import { GiJesterHat } from "react-icons/gi";
-import akwanza from "/akwanza.png";
-import NoteBook from "/E-note.png";
-import Nemei from "/nemei_app.png";
+import akwanza from "/akwanza.webp";
+import NoteBook from "/E-note.webp";
+import Nemei from "/nemei_app.webp";
 
 export interface Project {
   img: string;

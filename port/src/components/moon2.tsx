@@ -13,6 +13,21 @@ function Moon() {
 
   useEffect(() => {
     const textureLoader = new TextureLoader();
+    const moonSize = 30;
+    const moonGeometry = new SphereGeometry(moonSize, 32, 32);
+
+    const setupMoon = (moon: Mesh) => {
+      setMoonMesh(moon);
+      const directionalLight = new DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(500, 400, -200);
+      directionalLight.target = moon;
+      scene.add(directionalLight);
+    };
+
+    const createFallback = () => {
+      const fallbackMaterial = new MeshPhongMaterial({ color: 0xaaaaaa, shininess: 0 });
+      setupMoon(new Mesh(moonGeometry, fallbackMaterial));
+    };
 
     textureLoader.load(textureURL, function (texture) {
       textureLoader.load(displacementURL, function (displacementMap) {
@@ -25,19 +40,9 @@ function Moon() {
           reflectivity: 0,
           shininess: 0,
         });
-
-        const moonSize = 30;
-        const moonGeometry = new SphereGeometry(moonSize, 32, 32);
-        const moon = new Mesh(moonGeometry, moonMaterial);
-        setMoonMesh(moon);
-
-        // Create a directional light
-        const directionalLight = new DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(500, 400, -200); // Position the light
-        directionalLight.target = moon; // Point the light at the moon
-        scene.add(directionalLight);
-      });
-    });
+        setupMoon(new Mesh(moonGeometry, moonMaterial));
+      }, undefined, createFallback);
+    }, undefined, createFallback);
   }, [scene]);
 
   useFrame(() => {
