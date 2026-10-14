@@ -23,11 +23,17 @@ import Reader from "/reader.webp";
 import ImmowebRadar from "/immoweb-radar.webp";
 import { SiNextdotjs, SiVite } from "react-icons/si";
 
+const preview = (name: string) =>
+  `${import.meta.env.BASE_URL}previews/${name}.webm`;
+
 export interface Project {
   img: string;
   title: string;
   link: string;
   featured?: boolean;
+  tag?: string;
+  // anteprima in loop (public/previews/*.webm), usata solo se il browser la carica
+  video?: string;
   description: {
     tech: ReactElement[];
     hooks: string[];
@@ -41,6 +47,8 @@ export const projects: Project[] = [
     title: "EP Sportwear",
     link: "https://epsportwear.com",
     featured: true,
+    tag: "E-commerce",
+    video: preview("ep-sportwear"),
     description: {
       tech: [<FaReact />, <SiNextdotjs />, <SiTailwindcss />],
       hooks: [],
@@ -52,6 +60,8 @@ export const projects: Project[] = [
     title: "Nemei App",
     link: "https://nemei.app",
     featured: true,
+    tag: "Fitness app · AI",
+    video: preview("nemei"),
     description: {
       tech: [
         <FaReact />,
@@ -68,6 +78,8 @@ export const projects: Project[] = [
     title: "Piano Trainer",
     link: "https://notepiano.vercel.app/",
     featured: true,
+    tag: "Learning app",
+    video: preview("piano-trainer"),
     description: {
       tech: [<FaReact />, <SiVite />, <IoLogoJavascript />],
       hooks: [],
@@ -79,6 +91,8 @@ export const projects: Project[] = [
     title: "Reader",
     link: "https://reader-web-psi.vercel.app/",
     featured: true,
+    tag: "Reading app · AI",
+    video: preview("reader"),
     description: {
       tech: [<FaReact />, <SiVite />, <IoLogoJavascript />],
       hooks: [],
@@ -90,6 +104,8 @@ export const projects: Project[] = [
     title: "Immoweb Radar",
     link: "https://immoweb-radar.vercel.app/",
     featured: true,
+    tag: "PWA · Real estate",
+    video: preview("immoweb-radar"),
     description: {
       tech: [<FaReact />, <SiNextdotjs />],
       hooks: [],

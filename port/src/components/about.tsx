@@ -6,6 +6,7 @@ import Skills from "./skills";
 import Sentence from "./sentence";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
+import SelectedWork from "./selected-work";
 import Contact from "./section-contact";
 
 const words = [
@@ -53,6 +54,9 @@ export function About() {
   const { ref: ref4, inView: inView4 } = useInView({
     triggerOnce: false,
   });
+  const { ref: ref5, inView: inView5 } = useInView({
+    triggerOnce: false,
+  });
 
   return (
     <>
@@ -80,6 +84,14 @@ export function About() {
           transition={{ duration: 1 }}
         >
           <Skills />
+        </motion.div>
+        <motion.div
+          ref={ref5}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: inView5 ? 1 : 0 }}
+          transition={{ duration: 1 }}
+        >
+          <SelectedWork />
         </motion.div>
         <motion.div
           ref={ref3}

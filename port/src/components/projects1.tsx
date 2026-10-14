@@ -1,8 +1,46 @@
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { MdArrowOutward } from "react-icons/md";
 import { projects, Project } from "./project-data";
 import Nav_projects from "./project-nav";
 import Sound from "./sound";
+
+// miniatura + anteprima video: il video compare in dissolvenza solo quando è pronto a partire
+function ProjectMedia({ project }: { project: Project }) {
+  const reduceMotion = useReducedMotion();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => setReady(false), [project]);
+
+  return (
+    <>
+      <img
+        src={project.img}
+        alt={project.title}
+        className="w-full h-full object-cover object-top transition-all duration-1000 group-hover/img:scale-110 group-hover/img:rotate-1 filter group-hover/img:brightness-110"
+        loading="lazy"
+      />
+      {project.video && !reduceMotion && (
+        <video
+          key={project.video}
+          src={project.video}
+          poster={project.img}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden
+          onCanPlay={() => setReady(true)}
+          onError={() => setReady(false)}
+          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 ${
+            ready ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </>
+  );
+}
 
 function Projects() {
   const [currentProject, setCurrentProject] = useState(projects[0]);
@@ -45,6 +83,20 @@ function Projects() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
+
+  // inclinazione 3D della miniatura col mouse: niente stato React, si scrive solo lo style
+  const tiltRef = useRef<HTMLDivElement>(null);
+  const handleTilt = (e: React.MouseEvent) => {
+    const el = tiltRef.current;
+    if (!el || window.matchMedia("(pointer: coarse)").matches) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`;
+  };
+  const resetTilt = () => {
+    if (tiltRef.current) tiltRef.current.style.transform = "";
+  };
 
   const featured = projects.filter((p) => p.featured);
   const hostname = (link: string) => new URL(link).hostname.replace("www.", "");
@@ -89,17 +141,17 @@ function Projects() {
               <div className="grid lg:grid-cols-[1.25fr_1fr] gap-6 lg:gap-10 p-5 sm:p-8 lg:p-10">
 
                 {/* Left Side - Image */}
-                <div className="relative self-center overflow-hidden rounded-2xl group/img">
+                <div
+                  ref={tiltRef}
+                  onMouseMove={handleTilt}
+                  onMouseLeave={resetTilt}
+                  className="relative self-center overflow-hidden rounded-2xl group/img will-change-transform transition-transform duration-200 ease-out"
+                >
                   {/* Animated Border - Monochrome */}
                   <div className="absolute inset-0 bg-gradient-to-r from-gray-400 via-white to-gray-400 opacity-0 group-hover/img:opacity-30 transition-opacity duration-500" style={{ padding: '2px' }} />
 
                   <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
-                    <img
-                      src={currentProject.img}
-                      alt={currentProject.title}
-                      className="w-full h-full object-cover object-top transition-all duration-1000 group-hover/img:scale-110 group-hover/img:rotate-1 filter group-hover/img:brightness-110"
-                      loading="lazy"
-                    />
+                    <ProjectMedia project={currentProject} />
 
                     {/* Overlay Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover/img:opacity-30 transition-all duration-500" />
@@ -137,6 +189,12 @@ function Projects() {
                   <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent drop-shadow-2xl leading-tight">
                     {currentProject.title}
                   </h2>
+
+                  {currentProject.tag && (
+                    <p className="-mt-3 text-sm tracking-[0.2em] text-gray-300 uppercase">
+                      {currentProject.tag}
+                    </p>
+                  )}
 
                   {/* Technologies Section */}
                   <div className="space-y-4">
