@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 html {
+  /* colore dietro la scrollbar (la pista è trasparente), altrimenti resta una striscia bianca */
+  background-color: #0b0f1a;
+  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
