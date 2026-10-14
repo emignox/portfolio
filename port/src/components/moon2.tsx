@@ -1,57 +1,42 @@
-import { SphereGeometry, MeshPhongMaterial, Mesh, TextureLoader, DirectionalLight } from "three";
-import { useState, useEffect } from "react";
+import { SphereGeometry, MeshPhongMaterial, Mesh, DirectionalLight } from "three";
+import { useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-
-const textureURL =
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/lroc_color_poles_1k.jpg";
-const displacementURL =
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/ldem_3_8bit.jpg";
+import { createMoonTexture } from "./moon";
 
 function Moon() {
-  const [moonMesh, setMoonMesh] = useState<Mesh | null>(null);
   const { scene } = useThree(); // Access the scene to add the light
 
+  const moonMesh = useMemo(() => {
+    const texture = createMoonTexture(); // procedurale: niente CDN esterno (403)
+    const geometry = new SphereGeometry(30, 32, 32);
+    const material = new MeshPhongMaterial({
+      map: texture,
+      bumpMap: texture,
+      bumpScale: 0.6,
+      reflectivity: 0,
+      shininess: 0,
+    });
+    return new Mesh(geometry, material);
+  }, []);
+
   useEffect(() => {
-    const textureLoader = new TextureLoader();
-    const moonSize = 30;
-    const moonGeometry = new SphereGeometry(moonSize, 32, 32);
+    const directionalLight = new DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(500, 400, -200);
+    directionalLight.target = moonMesh;
+    scene.add(directionalLight);
 
-    const setupMoon = (moon: Mesh) => {
-      setMoonMesh(moon);
-      const directionalLight = new DirectionalLight(0xffffff, 1);
-      directionalLight.position.set(500, 400, -200);
-      directionalLight.target = moon;
-      scene.add(directionalLight);
+    return () => {
+      scene.remove(directionalLight);
+      const material = moonMesh.material as MeshPhongMaterial;
+      material.map?.dispose();
+      material.dispose();
+      moonMesh.geometry.dispose();
     };
+  }, [scene, moonMesh]);
 
-    const createFallback = () => {
-      const fallbackMaterial = new MeshPhongMaterial({ color: 0xaaaaaa, shininess: 0 });
-      setupMoon(new Mesh(moonGeometry, fallbackMaterial));
-    };
-
-    textureLoader.load(textureURL, function (texture) {
-      textureLoader.load(displacementURL, function (displacementMap) {
-        const moonMaterial = new MeshPhongMaterial({
-          map: texture,
-          displacementMap: displacementMap,
-          displacementScale: 0.06,
-          bumpMap: displacementMap,
-          bumpScale: 0.04,
-          reflectivity: 0,
-          shininess: 0,
-        });
-        setupMoon(new Mesh(moonGeometry, moonMaterial));
-      }, undefined, createFallback);
-    }, undefined, createFallback);
-  }, [scene]);
-
-  useFrame(() => {
-    if (moonMesh) {
-      moonMesh.rotation.y += 0.001;
-    }
+  useFrame((_, delta) => {
+    moonMesh.rotation.y += 0.06 * Math.min(delta, 0.1);
   });
-
-  if (!moonMesh) return null;
 
   return <primitive object={moonMesh} position={[800, 500, -1000]} />;
 }

@@ -1,17 +1,18 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { Sky, Stars } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import {
-  TextureLoader,
-  RepeatWrapping,
-  PlaneGeometry,
-  Vector3,
-  Mesh,
-} from "three";
+import { TextureLoader, RepeatWrapping, PlaneGeometry, Vector3 } from "three";
 import { Water } from "three-stdlib";
 import Moon from "./moon";
 import * as THREE from "three";
 import TechCube from "./TechCube";
+
+// Texture condivise per colore: una sola CanvasTexture per tinta di nuvola
+const cloudTextures = new Map<string, THREE.CanvasTexture>();
+
+// Oltre il far plane della camera (1000) le nuvole non si vedono: niente da animare là fuori
+const CLOUD_X_MIN = -1200;
+const CLOUD_X_MAX = 1800;
 
 // Nuvola custom con sprite circolari realistici
 const CustomCloud: React.FC<{
@@ -22,8 +23,11 @@ const CustomCloud: React.FC<{
 }> = ({ position, opacity, size, color }) => {
   const ref = useRef<THREE.Group>(null!);
 
-  // Crea texture canvas per sprite circolare con gradiente morbido
+  // Texture canvas per sprite circolare con gradiente morbido (in cache per colore)
   const texture = useMemo(() => {
+    const cached = cloudTextures.get(color);
+    if (cached) return cached;
+
     // Adjust color to make it more red / sandy
     const [r, g, b] = color.match(/\d+/g)!.map(Number);
 
@@ -31,50 +35,40 @@ const CustomCloud: React.FC<{
     const ng = g; // keep green
     const nb = Math.max(0, b - 40); // reduce blue (removes pink)
 
-    const adjustedColor = `rgb(${nr}, ${ng}, ${nb})`;
+    const stop = (a: number) => `rgba(${nr}, ${ng}, ${nb}, ${a})`;
 
     const canvas = document.createElement("canvas");
-    canvas.width = 256;
-    canvas.height = 256;
+    canvas.width = 128;
+    canvas.height = 128;
     const ctx = canvas.getContext("2d")!;
 
-    const gradient = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
-
-    gradient.addColorStop(
-      0,
-      adjustedColor.replace(")", ", 0.9)").replace("rgb", "rgba")
-    );
-    gradient.addColorStop(
-      0.4,
-      adjustedColor.replace(")", ", 0.5)").replace("rgb", "rgba")
-    );
-    gradient.addColorStop(
-      0.7,
-      adjustedColor.replace(")", ", 0.2)").replace("rgb", "rgba")
-    );
-    gradient.addColorStop(
-      1,
-      adjustedColor.replace(")", ", 0)").replace("rgb", "rgba")
-    );
+    const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, stop(0.9));
+    gradient.addColorStop(0.4, stop(0.5));
+    gradient.addColorStop(0.7, stop(0.2));
+    gradient.addColorStop(1, stop(0));
 
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 256, 256);
+    ctx.fillRect(0, 0, 128, 128);
 
-    return new THREE.CanvasTexture(canvas);
+    const tex = new THREE.CanvasTexture(canvas);
+    cloudTextures.set(color, tex);
+    return tex;
   }, [color]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (ref.current) {
-      ref.current.position.x += 0.2 * size; // Invertito: ora si muovono da sinistra a destra
-      if (ref.current.position.x > 3000) {
-        ref.current.position.x = -1000;
+      // Si muovono da sinistra a destra (indipendente dal framerate)
+      ref.current.position.x += 0.2 * size * Math.min(delta, 0.1) * 60;
+      if (ref.current.position.x > CLOUD_X_MAX) {
+        ref.current.position.x = CLOUD_X_MIN;
       }
     }
   });
 
   // Crea sprite multipli con distribuzione più realistica
   const sprites = useMemo(() => {
-    const numSprites = Math.floor(15 + Math.random() * 10); // 15-25 sprite
+    const numSprites = Math.floor(10 + Math.random() * 8); // 10-18 sprite
     return Array.from({ length: numSprites }, (_, i) => {
       const angle = (i / numSprites) * Math.PI * 2;
       const distance = Math.random() * 40 * size;
@@ -120,7 +114,8 @@ const DynamicClouds: React.FC = () => {
     if (hour >= 16 && hour < 21) {
       // Pomeriggio/Tramonto - gradiente da arancione (basso) a grigio (alto)
       // Normalizza la posizione Y (da 500 a 750) in un valore tra 0 e 1
-      const normalizedY = (yPosition - 500) / 250;
+      // (quantizzata in 5 fasce così le texture si riusano)
+      const normalizedY = Math.round(((yPosition - 500) / 250) * 4) / 4;
 
       // Interpola tra arancione caldo (bottom) e grigio (top)
       const r = Math.round(250 - normalizedY * 50); // da 250 a 200
@@ -134,9 +129,9 @@ const DynamicClouds: React.FC = () => {
   };
 
   const clouds = useMemo(() => {
-    return Array.from({ length: 100 }, () => ({
+    return Array.from({ length: 70 }, () => ({
       position: [
-        Math.random() * 4000 - 300, // X: da -300 a 3700
+        CLOUD_X_MIN + Math.random() * (CLOUD_X_MAX - CLOUD_X_MIN), // X
         Math.random() * 250 + 500, // Y: da 500 a 750
         Math.random() * 2000 - 1000, // Z: da -1000 a 1000
       ] as [number, number, number],
@@ -166,33 +161,42 @@ const DynamicClouds: React.FC = () => {
 };
 
 const Background: React.FC = () => {
-  const waterRef = useRef<Mesh>(null);
   const { scene } = useThree();
 
-  const loader = new TextureLoader();
-  const waterNormals = loader.load("water.jpeg", (texture) => {
-    texture.wrapS = texture.wrapT = RepeatWrapping;
-  });
+  const water = useMemo(() => {
+    const waterNormals = new TextureLoader().load(
+      `${import.meta.env.BASE_URL}water.jpeg`
+    );
+    waterNormals.wrapS = waterNormals.wrapT = RepeatWrapping;
 
-  const water = new Water(new PlaneGeometry(10000, 10000), {
-    textureWidth: 500,
-    textureHeight: 500,
-    waterNormals: waterNormals,
-    alpha: 1,
-    sunDirection: new Vector3(1, 1, 1),
-    sunColor: 0xffffff,
-    waterColor: 0x000033,
-    distortionScale: 15,
-    fog: scene.fog !== undefined,
-  });
+    const w = new Water(new PlaneGeometry(10000, 10000), {
+      textureWidth: 512,
+      textureHeight: 512,
+      waterNormals: waterNormals,
+      alpha: 1,
+      sunDirection: new Vector3(1, 1, 1),
+      sunColor: 0xffffff,
+      waterColor: 0x000033,
+      distortionScale: 15,
+      fog: scene.fog !== undefined,
+    });
 
-  water.rotateX((3 * Math.PI) / 2);
-  water.position.x = -5;
+    w.rotateX((3 * Math.PI) / 2);
+    w.position.x = -5;
+    return w;
+  }, [scene]);
 
-  useFrame(() => {
-    if (waterRef.current) {
-      water.material.uniforms["time"].value += 1.0 / 60.0;
-    }
+  // Libera GPU quando si lascia la scena
+  useEffect(() => {
+    return () => {
+      water.geometry.dispose();
+      (water.material as THREE.ShaderMaterial).uniforms.normalSampler.value.dispose();
+      water.material.dispose();
+    };
+  }, [water]);
+
+  useFrame((_, delta) => {
+    water.material.uniforms["time"].value += Math.min(delta, 0.1);
   });
 
   const getTimePreset = () => {
@@ -243,7 +247,7 @@ const Background: React.FC = () => {
     }
   };
 
-  const timePreset = getTimePreset();
+  const timePreset = useMemo(getTimePreset, []);
 
   return (
     <>
@@ -254,7 +258,7 @@ const Background: React.FC = () => {
       {/* Luce ambientale per illuminare la scena */}
       <ambientLight intensity={0.3} />
 
-      <primitive object={water} ref={waterRef} />
+      <primitive object={water} />
 
       <Sky
         sunPosition={timePreset.skyPosition}

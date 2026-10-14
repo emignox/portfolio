@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -11,7 +11,59 @@ html {
 body {
   overflow-x: hidden; /* Nasconde la barra di scorrimento orizzontale */
   overflow-y: auto;
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
+
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* velo scuro tra il canvas 3D (z -1) e i contenuti: il testo bianco resta leggibile anche col cielo chiaro */
+.page-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.3) 45%,
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .fade {
@@ -57,11 +109,12 @@ body {
 
 .button {
   
-  padding: 20px 10px;
+  padding: 14px 28px;
   border: none;
-  border-radius: 30px;
-  font-weight: bold;
-  letter-spacing: 5px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
   text-transform: uppercase;
   cursor: pointer;
   color: #ffffff;
@@ -126,6 +179,16 @@ body {
 
 ::-webkit-scrollbar {
   width: 8px; /* Larghezza della barra di scorrimento */
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
 }
 .loading-overlay {
   position: fixed;

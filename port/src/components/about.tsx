@@ -56,19 +56,19 @@ export function About() {
 
   return (
     <>
-      <div className="h-screen ">
+      <div className="page-scrim" />
+      <div className="min-h-screen">
         <Button />
         <div className="flex flex-col items-center justify-center h-3/5 ">
-          <div className="text-4xl font-black text-white lg:text-8xl fade-in-out h-1/4 ">
+          <div className="mt-6 text-4xl font-bold text-white lg:text-8xl fade-in-out h-1/4 ">
             {currentWord}
           </div>
-          <Sound className="flex items-center justify-center w-12 h-12 text-white border-2 rounded-full " />
+          <Sound className="flex items-center justify-center w-12 h-12 text-white border-2 rounded-full bg-black/30 backdrop-blur-md" />
         </div>
         <motion.div
           ref={ref1}
           initial={{ opacity: 0 }}
           animate={{ opacity: inView1 ? 1 : 0 }}
-          drag="x"
           className="flex items-start w-full "
         >
           <Reason />

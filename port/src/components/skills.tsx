@@ -12,6 +12,7 @@ import {
   SiTensorflow,
   SiNodedotjs,
   SiApollographql,
+  SiNextdotjs,
 } from "react-icons/si";
 
 const skills = [
@@ -25,32 +26,33 @@ const skills = [
   { icon: <SiNestjs className="text-white" />, name: "NestJS" },
   { icon: <SiGraphql className="text-white" />, name: "GraphQl" },
   { icon: <SiTensorflow className="text-white" />, name: "Tensorflow" },
+  { icon: <SiNextdotjs className="text-white" />, name: "Next.js" },
   { icon: <SiNodedotjs className="text-white" />, name: "NodeJS" },
   { icon: <SiApollographql className="text-white" />, name: "Apollo" },
 ];
 
 function Skills() {
   return (
-    <>
-      <h1 className="my-32 text-3xl font-black text-center text-white lg:text-5xl">
+    <section className="px-4 mx-auto max-w-4xl">
+      <h2 className="mt-32 mb-12 text-3xl font-bold text-center text-white lg:text-5xl">
         Skills
-      </h1>
-      <ul className="grid grid-cols-3 gap-5 mx-2 justify-items-center lg:mx-72">
-        {skills.map((skill, index) => (
-          <div key={index} className="flex flex-col ">
-            <li
-              className="flex items-center justify-center w-20 h-20 my-5 text-5xl border border-white rounded-2xl "
-              key={index}
-            >
+      </h2>
+      <ul className="flex flex-wrap justify-center gap-3 md:gap-5">
+        {skills.map((skill) => (
+          <li
+            key={skill.name}
+            className="flex flex-col items-center justify-center w-[30%] gap-3 p-4 text-4xl sm:w-36 transition duration-300 border cursor-default group rounded-2xl border-white/15 bg-white/5 backdrop-blur-sm hover:-translate-y-1 hover:border-white/50 hover:bg-white/10 md:p-6"
+          >
+            <span className="transition-transform duration-300 group-hover:scale-110">
               {skill.icon}
-            </li>
-            <li className="flex flex-col items-center justify-center text-xl font-black text-white tetxt center">
+            </span>
+            <span className="text-sm font-medium text-white/80 md:text-base">
               {skill.name}
-            </li>
-          </div>
+            </span>
+          </li>
         ))}
       </ul>
-    </>
+    </section>
   );
 }
 

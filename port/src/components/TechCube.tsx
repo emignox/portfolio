@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
-import { useFrame } from "@react-three/fiber";
+import React, { useRef, useEffect, useMemo } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Text } from "@react-three/drei";
 
@@ -13,7 +13,10 @@ const TechCube: React.FC<TechCubeProps> = ({
   size = 80,
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // Il mouse vive in un ref: uno state farebbe ri-renderizzare tutto il cubo (e tutti i Text) a ogni mousemove
+  const mouse = useRef({ x: 0, y: 0 });
+  // Su schermi stretti (mobile) il cubo è più piccolo
+  const narrow = useThree((s) => s.size.width < s.size.height);
 
   // Le tecnologie da mostrare sulle 6 facce
   const technologies = [
@@ -45,7 +48,8 @@ const TechCube: React.FC<TechCubeProps> = ({
       const ndcX = (x / width) * 2 - 1;
       const ndcY = -(y / height) * 2 + 1;
 
-      setMousePosition({ x: ndcX, y: ndcY });
+      mouse.current.x = ndcX;
+      mouse.current.y = ndcY;
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -70,16 +74,26 @@ const TechCube: React.FC<TechCubeProps> = ({
 
   const particlesRef = useRef<THREE.Points>(null);
 
+  // Array stabile: se cambiasse a ogni render, le particelle verrebbero resettate
+  const particlePositions = useMemo(
+    () =>
+      new Float32Array(
+        particles.flatMap((p) => [p.position.x, p.position.y, p.position.z])
+      ),
+    [particles]
+  );
+
   // Animazione e rotazione seguendo il mouse
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     if (groupRef.current) {
-      // Rotazione automatica più veloce
-      groupRef.current.rotation.x += 0.003;
-      groupRef.current.rotation.y += 0.003;
+      const f = Math.min(delta, 0.1) * 60; // indipendente dal framerate
+      // Rotazione automatica
+      groupRef.current.rotation.x += 0.003 * f;
+      groupRef.current.rotation.y += 0.003 * f;
 
       // Rotazione aggiuntiva seguendo il mouse
-      groupRef.current.rotation.y += mousePosition.x * 0.005;
-      groupRef.current.rotation.x += mousePosition.y * 0.005;
+      groupRef.current.rotation.y += mouse.current.x * 0.005 * f;
+      groupRef.current.rotation.x += mouse.current.y * 0.005 * f;
     }
 
     // Anima le particelle orbitanti (ottimizzato)
@@ -90,7 +104,7 @@ const TechCube: React.FC<TechCubeProps> = ({
 
       for (let i = 0; i < particles.length; i++) {
         const particle = particles[i];
-        particle.angle += particle.speed;
+        particle.angle += particle.speed * Math.min(delta, 0.1) * 60;
 
         const idx = i * 3;
         positions[idx] = Math.cos(particle.angle) * particle.radius;
@@ -103,7 +117,7 @@ const TechCube: React.FC<TechCubeProps> = ({
   });
 
   return (
-    <group position={position}>
+    <group position={position} scale={narrow ? 0.6 : 1}>
       {/* Gruppo rotante che contiene cubo e testi */}
       <group ref={groupRef}>
         {/* Cubo principale */}
@@ -115,8 +129,6 @@ const TechCube: React.FC<TechCubeProps> = ({
               key={index}
               attach={`material-${index}`}
               color={color}
-              transparent
-              opacity={0.8}
               metalness={0.9}
               roughness={0.4}
             />
@@ -285,15 +297,7 @@ const TechCube: React.FC<TechCubeProps> = ({
           <bufferAttribute
             attach="attributes-position"
             count={particles.length}
-            array={
-              new Float32Array(
-                particles.flatMap((p) => [
-                  p.position.x,
-                  p.position.y,
-                  p.position.z,
-                ])
-              )
-            }
+            array={particlePositions}
             itemSize={3}
           />
         </bufferGeometry>

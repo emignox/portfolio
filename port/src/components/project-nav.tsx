@@ -1,34 +1,51 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projects, Project } from "./project-data";
 import { IoCloseSharp } from "react-icons/io5";
 
 
 interface SidebarProjectsProps {
   onProjectClick: (project: Project) => void;
+  current?: Project;
 }
 
 // Definire e esportare il componente MenuProjectMobile
 /// menu mobile 
 export const MenuProjectMobile: React.FC<SidebarProjectsProps> = ({
   onProjectClick,
+  current,
 }) => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const activeRef = useRef<HTMLLIElement>(null);
+
+  // tiene il chip attivo visibile anche quando cambia con Prev/Next o con le frecce
+  useEffect(() => {
+    const list = listRef.current;
+    const item = activeRef.current;
+    if (!list || !item) return;
+    list.scrollTo({
+      left: item.offsetLeft - (list.clientWidth - item.offsetWidth) / 2,
+      behavior: "smooth",
+    });
+  }, [current]);
 
   const handleMenu = (project: Project) => {
-    setSelectedProject(project);
     onProjectClick(project);
   };
 
   return (
     <>
-      <ul className="flex gap-3  items-center   overflow-x-auto md:hidden w-full h-auto font-bold text-white p-3">
+      <ul
+        ref={listRef}
+        className="relative flex gap-2 items-center overflow-x-auto no-scrollbar md:hidden w-full h-auto font-bold text-white px-3 py-2"
+      >
         {projects.map((project, index) => (
           <li
             key={index}
-            className={`pl-3 py-2    flex-shrink-0 w-40 text-sm border rounded-md list-items font-light cursor-pointer transition-colors duration-300 ${
-              selectedProject === project
-                ? "bg-white text-black"
-                : "bg-black text-white"
+            ref={current === project ? activeRef : undefined}
+            className={`px-4 py-2 flex-shrink-0 whitespace-nowrap text-sm border rounded-full list-items font-medium cursor-pointer transition-colors duration-300 ${
+              current === project
+                ? "bg-white text-black border-white"
+                : "bg-black/40 backdrop-blur-md border-white/40 text-white"
             }`}
             onClick={() => handleMenu(project)}
           >
@@ -42,6 +59,7 @@ export const MenuProjectMobile: React.FC<SidebarProjectsProps> = ({
 // Definire e esportare il componente SidebarProjects
 export const SidebarProjects: React.FC<SidebarProjectsProps> = ({
   onProjectClick,
+  current,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -55,18 +73,19 @@ export const SidebarProjects: React.FC<SidebarProjectsProps> = ({
   return (
     <>
       {/* Utilizzo del componente MenuProjectMobile */}
-      <MenuProjectMobile onProjectClick={onProjectClick} />
+      <MenuProjectMobile onProjectClick={onProjectClick} current={current} />
 
       <h1
-        className={`fixed top-[170px] left-0 z-10 text-xl hidden md:block bg-black cursor-pointer text-white bg-custom-black backdrop-filter-[blur(10px)] bg-opacity-30 border px-2 py-2 font-thin rounded-lg transition-all duration-400 ${
+        className={`fixed top-[170px] left-0 z-10 text-xl hidden md:block cursor-pointer text-white bg-black/40 backdrop-blur-md border border-l-0 border-white/30 px-4 py-2 font-light rounded-r-xl transition-all duration-400 ${
           isMenuOpen ? "opacity-0" : "opacity-100"
         }`}
         onMouseEnter={() => setIsMenuOpen(true)}
+        onClick={() => setIsMenuOpen(true)}
       >
         My works
       </h1>
       <div
-        className={`fixed top-[170px] left-0 z-10 max-h-[50vh] bg-black p-2 transition-all duration-400 transform rounded-r-xl border overflow-y-auto bg-custom-black backdrop-blur-lg bg-opacity-30 shadow-2xl flex items-start justify-end ${
+        className={`fixed top-[170px] left-0 z-10 max-h-[60vh] bg-black/60 p-2 transition-all duration-400 transform rounded-r-xl border border-l-0 border-white/25 overflow-y-auto backdrop-blur-xl shadow-2xl flex items-start justify-end ${
           isMenuOpen
             ? "translate-x-0 opacity-100 pointer-events-auto"
             : "translate-x-0 opacity-0 pointer-events-none"

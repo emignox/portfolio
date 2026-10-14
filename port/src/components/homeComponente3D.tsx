@@ -1,7 +1,6 @@
-import { Canvas } from "@react-three/fiber";
-import { Sky, Stars, OrbitControls } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sky, Stars } from "@react-three/drei";
 import { useRef, useEffect } from "react";
-import * as THREE from "three";
 import Moon from "./moon2";
 import GenerateClouds from "./clouds";
 import FloatingRocket from "./FloatingRocket";
@@ -42,43 +41,32 @@ const isNight = () => {
   return hour >= 21 || hour < 6;
 };
 
-const isAfternoon = () => {
-  const hour = new Date().getHours();
-  return hour >= 16 && hour < 21;
-};
-
-function Scene({
-  cameraRef,
-}: {
-  cameraRef: React.RefObject<THREE.PerspectiveCamera>;
-}) {
+function Scene() {
   const night = isNight();
-  const afternoon = isAfternoon();
 
   const { sunPosition, turbidity, rayleigh, mieCoefficient, mieDirectionalG } =
     getTimePreset();
 
+  // Parallasse leggero della camera col mouse (target in coordinate normalizzate)
+  const pointer = useRef({ x: 0, y: 0 });
+
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (cameraRef.current) {
-        const { clientX: x, clientY: y } = event;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        const ndcX = (x / width) * 2 - 1;
-        const ndcY = -(y / height) * 2 + 1;
-
-        cameraRef.current.position.x = ndcX * 0.5;
-        cameraRef.current.position.y = ndcY * 0.5;
-        cameraRef.current.lookAt(0, 0, 0);
-      }
+    const handlePointerMove = (event: PointerEvent) => {
+      pointer.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("pointermove", handlePointerMove);
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [cameraRef]);
+  }, []);
+
+  useFrame(({ camera }) => {
+    camera.position.x += (pointer.current.x * 0.5 - camera.position.x) * 0.08;
+    camera.position.y += (pointer.current.y * 0.5 - camera.position.y) * 0.08;
+    camera.lookAt(0, 0, 0);
+  });
 
   return (
     <>
@@ -92,14 +80,9 @@ function Scene({
         mieDirectionalG={mieDirectionalG}
       />
       <ambientLight intensity={night ? 1 : 1.9} />
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        enableRotate={false}
-      />
 
-      {/* Razzo che fluttua nel cielo - centrato davanti alla camera */}
-      <FloatingRocket position={[0, 10, -60]} scale={2.5} />
+      {/* Razzo che fluttua nel cielo, a riposo sopra il titolo */}
+      <FloatingRocket position={[0, 10, -60]} scale={2.2} restHeight={0.48} />
 
       {/* Testo 3D "Fullstack Developer" - più distante del razzo */}
       <Text3DFullstack position={[0, 10, -120]} />
@@ -117,22 +100,12 @@ function Scene({
           <Moon />
         </>
       )}
-      {afternoon ? (
-        <>
-          <GenerateClouds count={20} />
-        </>
-      ) : (
-        <>
-          <GenerateClouds count={20} />
-        </>
-      )}
+      <GenerateClouds count={20} />
     </>
   );
 }
 
 const HomeComponent3D: React.FC = () => {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
-
   return (
     <Canvas
       style={{
@@ -143,14 +116,11 @@ const HomeComponent3D: React.FC = () => {
         height: "100vh",
         zIndex: -1,
         opacity: 1,
-        filter: "brightness(90%)",
       }}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0, 10], fov: 75, far: 5000 }}
-      onCreated={({ camera }) => {
-        cameraRef.current = camera as THREE.PerspectiveCamera;
-      }}
     >
-      <Scene cameraRef={cameraRef} />
+      <Scene />
     </Canvas>
   );
 };

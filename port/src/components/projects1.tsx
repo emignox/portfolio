@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { MdArrowOutward } from "react-icons/md";
 import { projects, Project } from "./project-data";
 import Nav_projects from "./project-nav";
 import Sound from "./sound";
@@ -7,23 +8,56 @@ function Projects() {
   const [currentProject, setCurrentProject] = useState(projects[0]);
   const [isVisible, setIsVisible] = useState(true);
 
+  // ultimo progetto richiesto: frecce premute in fila partono da qui, non dal progetto ancora in dissolvenza
+  const targetRef = useRef(projects[0]);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
   const handleProjectClick = (project: Project) => {
+    targetRef.current = project;
     setIsVisible(false);
-    setTimeout(() => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
       setCurrentProject(project);
       setIsVisible(true);
     }, 300);
   };
 
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
   const handleCardClick = (link: string) => {
-    window.open(link, "_blank");
+    window.open(link, "_blank", "noopener,noreferrer");
   };
+
+  const currentIndex = projects.indexOf(currentProject);
+  const goTo = (offset: number) =>
+    handleProjectClick(
+      projects[
+        (projects.indexOf(targetRef.current) + offset + projects.length) %
+          projects.length
+      ]
+    );
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") goTo(1);
+      if (e.key === "ArrowLeft") goTo(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  const featured = projects.filter((p) => p.featured);
+  const hostname = (link: string) => new URL(link).hostname.replace("www.", "");
 
   return (
     <>
-      <Nav_projects onProjectClick={handleProjectClick} />
+      <div className="page-scrim" />
+      <Nav_projects
+        onProjectClick={handleProjectClick}
+        current={currentProject}
+      />
 
-      <div className="relative min-h-screen lg:min-h-[85vh] py-20 px-4 lg:px-12 overflow-hidden flex items-center justify-center">
+      <div className="relative lg:min-h-[85vh] py-8 md:py-20 px-4 md:pl-28 md:pr-8 lg:pl-32 lg:pr-12 overflow-hidden flex items-center justify-center">
         {/* Animated Background Elements - Monochrome */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse" />
@@ -52,18 +86,18 @@ function Projects() {
               <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               {/* Content Container */}
-              <div className="grid lg:grid-cols-2 gap-8 p-8 lg:p-12">
+              <div className="grid lg:grid-cols-[1.25fr_1fr] gap-6 lg:gap-10 p-5 sm:p-8 lg:p-10">
 
                 {/* Left Side - Image */}
-                <div className="relative overflow-hidden rounded-2xl group/img">
+                <div className="relative self-center overflow-hidden rounded-2xl group/img">
                   {/* Animated Border - Monochrome */}
                   <div className="absolute inset-0 bg-gradient-to-r from-gray-400 via-white to-gray-400 opacity-0 group-hover/img:opacity-30 transition-opacity duration-500" style={{ padding: '2px' }} />
 
-                  <div className="relative h-[400px] lg:h-[500px] overflow-hidden rounded-2xl">
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
                     <img
                       src={currentProject.img}
                       alt={currentProject.title}
-                      className="w-full h-full object-cover transition-all duration-1000 group-hover/img:scale-110 group-hover/img:rotate-1 filter group-hover/img:brightness-110"
+                      className="w-full h-full object-cover object-top transition-all duration-1000 group-hover/img:scale-110 group-hover/img:rotate-1 filter group-hover/img:brightness-110"
                       loading="lazy"
                     />
 
@@ -85,23 +119,35 @@ function Projects() {
                 </div>
 
                 {/* Right Side - Content */}
-                <div className="flex flex-col justify-center space-y-8">
+                <div className="flex flex-col justify-center space-y-6 lg:space-y-8">
+
+                  <div className="flex items-center justify-between text-sm tracking-wider text-gray-300">
+                    <span className="uppercase">
+                      {String(currentIndex + 1).padStart(2, "0")} /{" "}
+                      {String(projects.length).padStart(2, "0")}
+                    </span>
+                    {currentProject.featured && (
+                      <span className="px-3 py-1 text-xs font-semibold text-white uppercase border rounded-full border-white/40 bg-white/10">
+                        Featured · Live
+                      </span>
+                    )}
+                  </div>
 
                   {/* Title with Gradient - Monochrome */}
-                  <h2 className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent drop-shadow-2xl leading-tight">
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent drop-shadow-2xl leading-tight">
                     {currentProject.title}
                   </h2>
 
                   {/* Technologies Section */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                    <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">
                       Technologies
                     </h3>
-                    <div className="flex flex-wrap gap-4 text-3xl">
+                    <div className="flex flex-wrap gap-2 text-3xl">
                       {currentProject.description.tech.map((Tech, techIndex) => (
                         <span
                           key={techIndex}
-                          className="text-gray-400 transition-all duration-300 hover:text-white hover:scale-125 hover:-rotate-12 cursor-pointer p-2 rounded-lg hover:bg-white/10"
+                          className="text-gray-300 transition-all duration-300 hover:text-white hover:scale-125 hover:-rotate-12 cursor-pointer p-2 rounded-lg hover:bg-white/10"
                           style={{ transitionDelay: `${techIndex * 50}ms` }}
                         >
                           {Tech}
@@ -112,32 +158,28 @@ function Projects() {
 
                   {/* Description */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                    <h3 className="text-sm font-semibold text-gray-300 tracking-wider uppercase">
                       About This Project
                     </h3>
-                    <p className="text-gray-200 text-lg leading-relaxed">
+                    <p className="text-gray-100 text-base lg:text-lg leading-relaxed">
                       {currentProject.description.info}
                     </p>
                   </div>
 
                   {/* CTA Button - Monochrome */}
-                  <div className="pt-4">
-                    <div className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-md rounded-full border border-white/30 text-white font-semibold transition-all duration-500 hover:scale-105 hover:border-white/50 hover:shadow-lg hover:shadow-white/30 hover:bg-white/20 group/btn">
-                      <span className="tracking-wider">VISIT PROJECT</span>
-                      <svg
-                        className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                      <div className="flex gap-1">
-                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                        <span className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                      </div>
-                    </div>
+                  <div className="pt-2">
+                    <a
+                      href={currentProject.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-3 px-6 py-3 sm:px-8 sm:py-4 bg-white/10 backdrop-blur-md rounded-full border border-white/30 text-white font-semibold transition-all duration-500 hover:scale-105 hover:border-white/50 hover:shadow-lg hover:shadow-white/30 hover:bg-white/20 group/btn"
+                    >
+                      <span className="tracking-wider">
+                        VISIT {hostname(currentProject.link).toUpperCase()}
+                      </span>
+                      <MdArrowOutward className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                    </a>
                   </div>
 
                 </div>
@@ -158,7 +200,54 @@ function Projects() {
           </div>
         </div>
 
-        <Sound className="absolute bottom-10 right-10" />
+        <Sound className="flex items-center justify-center w-12 h-12 text-white border-2 rounded-full bg-black/30 backdrop-blur-md" />
+      </div>
+
+      <div className="px-4 pb-28 text-white md:pl-28 md:pr-8 lg:pl-32 lg:pr-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex items-center justify-center gap-4 mb-10 md:mb-12 -mt-2">
+            <button
+              onClick={() => goTo(-1)}
+              aria-label="Previous project"
+              className="px-5 py-2 transition border rounded-full border-white/40 bg-black/30 backdrop-blur-md hover:bg-white/15"
+            >
+              ← Prev
+            </button>
+            <button
+              onClick={() => goTo(1)}
+              aria-label="Next project"
+              className="px-5 py-2 transition border rounded-full border-white/40 bg-black/30 backdrop-blur-md hover:bg-white/15"
+            >
+              Next →
+            </button>
+          </div>
+
+          <h3 className="mb-4 text-sm font-semibold tracking-wider text-gray-300 uppercase">
+            Live projects
+          </h3>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((project) => (
+              <li key={project.link}>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-4 transition border group rounded-2xl border-white/25 bg-black/25 backdrop-blur-md hover:border-white/50 hover:bg-white/10"
+                >
+                  <span>
+                    <span className="block text-lg font-semibold">
+                      {project.title}
+                    </span>
+                    <span className="text-sm text-gray-300">
+                      {hostname(project.link)}
+                    </span>
+                  </span>
+                  <MdArrowOutward className="text-2xl transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

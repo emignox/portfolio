@@ -17,11 +17,17 @@ import { GiJesterHat } from "react-icons/gi";
 import akwanza from "/akwanza.webp";
 import NoteBook from "/E-note.webp";
 import Nemei from "/nemei_app.webp";
+import EpSportwear from "/ep-sportwear.webp";
+import PianoTrainer from "/piano-trainer.webp";
+import Reader from "/reader.webp";
+import ImmowebRadar from "/immoweb-radar.webp";
+import { SiNextdotjs, SiVite } from "react-icons/si";
 
 export interface Project {
   img: string;
   title: string;
   link: string;
+  featured?: boolean;
   description: {
     tech: ReactElement[];
     hooks: string[];
@@ -31,9 +37,21 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    img: EpSportwear,
+    title: "EP Sportwear",
+    link: "https://epsportwear.com",
+    featured: true,
+    description: {
+      tech: [<FaReact />, <SiNextdotjs />, <SiTailwindcss />],
+      hooks: [],
+      info: "Online store for seamless activewear: leggings, sports bras, gym tops and compression wear. Italian/English storefront with customer accounts, cart, wishlist, light/dark theme and an installable app experience. Live and selling.",
+    },
+  },
+  {
     img: Nemei,
     title: "Nemei App",
-    link: "https://nemei.app/landingPage",
+    link: "https://nemei.app",
+    featured: true,
     description: {
       tech: [
         <FaReact />,
@@ -43,6 +61,39 @@ export const projects: Project[] = [
       ],
       hooks: [" useState,", " UseEffect,", " useNavigate", "others..."],
       info: "Personalized fitness app combining AI-generated workouts from certified trainers with comprehensive nutrition tracking. Features include automatic macro calculations, exercise video demonstrations, and a flexible calorie-based approach. Professional-grade fitness tools requiring minimal user effort.",
+    },
+  },
+  {
+    img: PianoTrainer,
+    title: "Piano Trainer",
+    link: "https://notepiano.vercel.app/",
+    featured: true,
+    description: {
+      tech: [<FaReact />, <SiVite />, <IoLogoJavascript />],
+      hooks: [],
+      info: "My own app for learning to read music. It tests how well you already read the staff, then builds daily practice, songs, study sessions and sprints around your level, with streaks and progress tracking. Works with the piano's sound through the microphone.",
+    },
+  },
+  {
+    img: Reader,
+    title: "Reader",
+    link: "https://reader-web-psi.vercel.app/",
+    featured: true,
+    description: {
+      tech: [<FaReact />, <SiVite />, <IoLogoJavascript />],
+      hooks: [],
+      info: "A reading environment where the AI assistant lives inside the text. Select a passage and the explanation appears anchored to that exact point, not in a separate chat. Three depth levels, notes and highlights tied to the text, and reading in one language while being explained in another. Free and Pro plans.",
+    },
+  },
+  {
+    img: ImmowebRadar,
+    title: "Immoweb Radar",
+    link: "https://immoweb-radar.vercel.app/",
+    featured: true,
+    description: {
+      tech: [<FaReact />, <SiNextdotjs />],
+      hooks: [],
+      info: "A PWA that filters new Belgian property listings against my own criteria and works out the real numbers for each one: total cost with fees, monthly mortgage payment, rental cash flow, commute time and distance from the station, plus energy rating and condition.",
     },
   },
   {
@@ -151,7 +202,7 @@ export const projects: Project[] = [
     description: {
       tech: [<FaReact />, <IoLogoJavascript />, <SiTailwindcss />],
       hooks: [" useState,", " UseEffect"],
-      info: "Buisiness idea for a restaurant landing page, in the process of completion. This project aims to provide an intuitive and user-friendly interface for potential customers to learn more about the restaurant and its offerings.",
+      info: "Business idea for a restaurant landing page, in the process of completion. This project aims to provide an intuitive and user-friendly interface for potential customers to learn more about the restaurant and its offerings.",
     },
   },
   {

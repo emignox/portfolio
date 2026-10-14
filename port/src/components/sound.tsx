@@ -10,6 +10,19 @@ interface SoundProps {
 
 // Creazione di un elemento audio globale
 const audio = new Audio(soundFile);
+audio.loop = true;
+
+// Ripristina il punto di riproduzione salvato, una sola volta per caricamento pagina
+let restored = false;
+const restoreTime = () => {
+  if (restored) return;
+  restored = true;
+  const savedTime = Number(localStorage.getItem("audio-time"));
+  if (savedTime > 0) audio.currentTime = savedTime;
+};
+const saveTime = () => {
+  localStorage.setItem("audio-time", audio.currentTime.toString());
+};
 
 function Sound({ className }: SoundProps) {
   const [isPlaying, setIsPlaying] = useState(
@@ -30,24 +43,22 @@ function Sound({ className }: SoundProps) {
   }, [location]);
 
   useEffect(() => {
-    const savedTime = localStorage.getItem("audio-time");
-    if (savedTime) {
-      audio.currentTime = Number(savedTime);
-    }
+    restoreTime();
     if (isPlaying) {
-      audio.play();
+      // Il browser puo' bloccare l'autoplay (es. dopo un reload): in quel caso
+      // lo stato torna su "spento" invece di mostrare un'icona che non suona.
+      audio.play().catch(() => setIsPlaying(false));
     } else {
       audio.pause();
     }
-    window.addEventListener("beforeunload", () => {
-      localStorage.setItem("audio-time", audio.currentTime.toString());
-    });
-    return () => {
-      window.removeEventListener("beforeunload", () => {
-        localStorage.setItem("audio-time", audio.currentTime.toString());
-      });
-    };
   }, [isPlaying]);
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", saveTime);
+    return () => {
+      window.removeEventListener("beforeunload", saveTime);
+    };
+  }, []);
 
   const handleIconClick = () => {
     setIsPlaying(!isPlaying);
@@ -58,15 +69,19 @@ function Sound({ className }: SoundProps) {
 
   return (
     <div className="fixed w-10 h-10 m-2 bottom-10 right-3">
-      <div
+      <button
+        type="button"
+        onClick={handleIconClick}
+        aria-label={isPlaying ? "Mute background sound" : "Play background sound"}
+        aria-pressed={isPlaying}
         className={`flex items-center justify-center w-12 h-12 text-white border-2 rounded-full ${className}`}
       >
         {isPlaying ? (
-          <CiWavePulse1 className="text-3xl" onClick={handleIconClick} />
+          <CiWavePulse1 className="text-3xl" />
         ) : (
-          <GoDash className="text-3xl" onClick={handleIconClick} />
+          <GoDash className="text-3xl" />
         )}
-      </div>
+      </button>
     </div>
   );
 }

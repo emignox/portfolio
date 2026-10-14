@@ -1,94 +1,80 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 interface FloatingRocketProps {
   position?: [number, number, number];
   scale?: number;
+  // Altezza a riposo, come frazione della meta' dello schermo (0 = centro, 1 = bordo alto)
+  restHeight?: number;
 }
 
 const FloatingRocket: React.FC<FloatingRocketProps> = ({
   position = [0, 30, -100],
   scale = 1,
+  restHeight = 0.45,
 }) => {
   const rocketRef = useRef<THREE.Group>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const targetRotation = useRef({ x: 0, y: 0 });
+  // Il mouse sta in un ref: aggiornare uno state a ogni mousemove faceva
+  // ri-renderizzare tutto il razzo (decine di mesh) per niente.
+  const mouse = useRef({ x: 0, y: 0 });
+  const cursorWorldPos = useRef(new THREE.Vector3());
+  const direction = useRef(new THREE.Vector3());
 
-  // Listener per il movimento del mouse
+  // Listener per il movimento del mouse (o del dito su touch)
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const { clientX: x, clientY: y } = event;
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      // Normalizza le coordinate del mouse tra -1 e 1
-      const ndcX = (x / width) * 2 - 1;
-      const ndcY = -(y / height) * 2 + 1;
-
-      setMousePosition({ x: ndcX, y: ndcY });
+    const handlePointerMove = (event: PointerEvent) => {
+      // Normalizza le coordinate tra -1 e 1
+      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("pointermove", handlePointerMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("pointermove", handlePointerMove);
     };
   }, []);
 
   // Animazione di fluttuazione e inseguimento del mouse
   useFrame(({ clock, camera }) => {
-    if (rocketRef.current) {
-      const time = clock.getElapsedTime();
+    const rocket = rocketRef.current;
+    if (!rocket) return;
 
-      // Movimento su e giù (fluttuazione base più ampia)
-      const baseY = position[1] + Math.sin(time * 0.5) * 12;
+    const time = clock.getElapsedTime();
+    const { x: mx, y: my } = mouse.current;
+    const cam = camera as THREE.PerspectiveCamera;
 
-      // Movimento seguendo il mouse (60% dell'influenza - raddoppiato)
-      const targetX = position[0] + mousePosition.x * 30;
-      const targetY = baseY + mousePosition.y * 20;
-      const targetZ = position[2] + mousePosition.x * 10; // Aggiunto movimento in profondità
+    // Dimensioni visibili sul piano del razzo: l'altezza a riposo e il
+    // raggio d'azione orizzontale seguono lo schermo (desktop e mobile)
+    const halfH =
+      (cam.position.z - position[2]) *
+      Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+    const halfW = halfH * cam.aspect;
 
-      // Lerp smooth per movimento fluido (aumentato a 0.08 per più reattività)
-      rocketRef.current.position.x +=
-        (targetX - rocketRef.current.position.x) * 0.08;
-      rocketRef.current.position.y +=
-        (targetY - rocketRef.current.position.y) * 0.08;
-      rocketRef.current.position.z +=
-        (targetZ - rocketRef.current.position.z) * 0.08;
+    // A riposo il razzo sta sopra il titolo e con il mouse non lo scavalca
+    const baseY = halfH * restHeight + Math.sin(time * 0.5) * halfH * 0.05;
+    const targetX = position[0] + mx * Math.min(30, halfW * 0.55);
+    const targetY = baseY + my * halfH * 0.1;
+    const targetZ = position[2] + mx * 10;
 
-      // Calcola la posizione del cursore nello spazio 3D (proiettata sul piano z della camera)
-      const cursorWorldPos = new THREE.Vector3(
-        mousePosition.x * 100,
-        mousePosition.y * 100,
-        camera.position.z - 80
-      );
+    // Lerp smooth per movimento fluido
+    rocket.position.x += (targetX - rocket.position.x) * 0.08;
+    rocket.position.y += (targetY - rocket.position.y) * 0.08;
+    rocket.position.z += (targetZ - rocket.position.z) * 0.08;
 
-      // Crea un vettore dalla posizione del razzo al cursore
-      const direction = new THREE.Vector3();
-      direction
-        .subVectors(cursorWorldPos, rocketRef.current.position)
-        .normalize();
+    // Posizione del cursore nello spazio 3D (proiettata a z camera - 80)
+    cursorWorldPos.current.set(mx * 100, my * 100, cam.position.z - 80);
+    direction.current
+      .subVectors(cursorWorldPos.current, rocket.position)
+      .normalize();
+    const d = direction.current;
 
-      // Calcola gli angoli necessari per puntare verso il cursore
-      // Yaw (rotazione Y) - rotazione orizzontale
-      targetRotation.current.y = Math.atan2(direction.x, direction.z);
+    // Yaw (rotazione Y): rotazione orizzontale verso il cursore
+    const targetYaw = Math.atan2(d.x, d.z);
+    rocket.rotation.y += (targetYaw - rocket.rotation.y) * 0.1;
 
-      // Pitch (rotazione X) - rotazione verticale
-      const horizontalDistance = Math.sqrt(
-        direction.x * direction.x + direction.z * direction.z
-      );
-      targetRotation.current.x = -Math.atan2(direction.y, horizontalDistance);
-
-      // Applica rotazione smooth con lerp (più reattivo)
-      rocketRef.current.rotation.y +=
-        (targetRotation.current.y - rocketRef.current.rotation.y) * 0.1;
-      rocketRef.current.rotation.x +=
-        (targetRotation.current.x - rocketRef.current.rotation.x) * 0;
-
-      // Oscillazione più pronunciata sul roll
-      rocketRef.current.rotation.z =
-        Math.sin(time * 0.8) * 0.1 + mousePosition.x * 0.2;
-    }
+    // Oscillazione sul roll + inclinazione verso il mouse
+    rocket.rotation.z = Math.sin(time * 0.8) * 0.1 + mx * 0.2;
   });
 
   return (

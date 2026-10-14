@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FaSquare } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function Button() {
@@ -11,12 +10,15 @@ function Button() {
      onClick={() => navigate("/about")}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="border border-white rounded-full w-44 text-white h-8 flex justify-start  items-center transition  duration-300 mx-3   hover:bg-white hover:text-black"
+      className="flex items-center gap-3 px-4 py-1.5 mx-3 mt-2 text-sm font-medium text-white transition duration-300 border rounded-full border-white/50 bg-black/35 backdrop-blur-md hover:bg-white hover:text-black"
     >
-      <FaSquare className="  text-green-600 text-xs rotate-45 mx-3 " />
+      <span className="relative flex w-2.5 h-2.5">
+        <span className="absolute inline-flex w-full h-full bg-green-500 rounded-full opacity-75 animate-ping" />
+        <span className="relative inline-flex w-2.5 h-2.5 bg-green-500 rounded-full" />
+      </span>
 
       {hover ? (
-        <p className=" fade">Contact me</p>
+        <p className="fade">Contact me</p>
       ) : (
         <p className="fade">open for work</p>
       )}
