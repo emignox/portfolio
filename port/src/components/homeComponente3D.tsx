@@ -1,53 +1,19 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Sky, Stars } from "@react-three/drei";
-import { useRef, useEffect } from "react";
-import Moon from "./moon2";
-import GenerateClouds from "./clouds";
-import FloatingRocket from "./FloatingRocket";
+import { useRef, useEffect, useMemo } from "react";
+import SolarSystem, { cameraHold } from "./SolarSystem";
 import Text3DFullstack from "./Text3DFullstack";
+import { SpaceBackdrop } from "../space/SpaceBackdrop";
 
-const getTimePreset = () => {
-  const hour = new Date().getHours();
-
-  if (hour >= 6 && hour < 16) {
-    return {
-      sunPosition: [1, 0.05, 0],
-      turbidity: 10,
-      rayleigh: 3,
-      mieCoefficient: 0.005,
-      mieDirectionalG: 0.7,
-    };
-  } else if (hour >= 16 && hour < 21) {
-    return {
-      sunPosition: [5, 0.01, -0.1],
-      turbidity: 32,
-      rayleigh: 30,
-      mieCoefficient: 0.01,
-      mieDirectionalG: 0.8,
-    };
-  } else {
-    return {
-      sunPosition: [0, -1, -1],
-      turbidity: 10,
-      rayleigh: 0.5,
-      mieCoefficient: 0.005,
-      mieDirectionalG: 0.7,
-    };
-  }
-};
-
-const isNight = () => {
-  const hour = new Date().getHours();
-  return hour >= 21 || hour < 6;
-};
+// Punto guardato dalla camera: il centro del sistema solare
+const TARGET: [number, number, number] = [0, 0, -75];
 
 function Scene() {
-  const night = isNight();
+  const reduceMotion = useMemo(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    []
+  );
 
-  const { sunPosition, turbidity, rayleigh, mieCoefficient, mieDirectionalG } =
-    getTimePreset();
-
-  // Parallasse leggero della camera col mouse (target in coordinate normalizzate)
+  // Camera che segue il mouse e deriva piano: la profondita' dello spazio si sente
   const pointer = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -62,45 +28,31 @@ function Scene() {
     };
   }, []);
 
-  useFrame(({ camera }) => {
-    camera.position.x += (pointer.current.x * 0.5 - camera.position.x) * 0.08;
-    camera.position.y += (pointer.current.y * 0.5 - camera.position.y) * 0.08;
-    camera.lookAt(0, 0, 0);
+  useFrame(({ camera, clock }, delta) => {
+    // mentre si indica un pianeta la camera resta ferma
+    if (cameraHold.current) {
+      camera.lookAt(...TARGET);
+      return;
+    }
+    const t = clock.getElapsedTime();
+    const drift = reduceMotion ? 0 : 1;
+    const tx = pointer.current.x * 4 * drift + Math.sin(t * 0.07) * 2 * drift;
+    const ty = pointer.current.y * 2.5 * drift + Math.sin(t * 0.05 + 1) * 1.2 * drift;
+    const k = 1 - Math.exp(-delta * 2.5);
+    camera.position.x += (tx - camera.position.x) * k;
+    camera.position.y += (ty - camera.position.y) * k;
+    camera.lookAt(...TARGET);
   });
 
   return (
     <>
-      <Sky
-        sunPosition={sunPosition as [number, number, number]}
-        azimuth={0.25}
-        inclination={0.6}
-        turbidity={turbidity}
-        rayleigh={rayleigh}
-        mieCoefficient={mieCoefficient}
-        mieDirectionalG={mieDirectionalG}
-      />
-      <ambientLight intensity={night ? 1 : 1.9} />
+      <SpaceBackdrop reducedMotion={reduceMotion} />
 
-      {/* Razzo che fluttua nel cielo, a riposo sopra il titolo */}
-      <FloatingRocket position={[0, 10, -60]} scale={2.2} restHeight={0.48} />
+      {/* Il mio lavoro come sistema solare: stack, prodotti, Odoo, costellazioni */}
+      <SolarSystem />
 
-      {/* Testo 3D "Fullstack Developer" - più distante del razzo */}
-      <Text3DFullstack position={[0, 10, -120]} />
-
-      {night && (
-        <>
-          <Stars
-            radius={300}
-            depth={50}
-            count={500}
-            factor={20}
-            saturation={1}
-            fade
-          />
-          <Moon />
-        </>
-      )}
-      <GenerateClouds count={20} />
+      {/* Titolo sotto il sistema solare */}
+      <Text3DFullstack position={[0, -36, -120]} />
     </>
   );
 }
@@ -116,6 +68,7 @@ const HomeComponent3D: React.FC = () => {
         height: "100vh",
         zIndex: -1,
         opacity: 1,
+        background: "#02030a",
       }}
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 10], fov: 75, far: 5000 }}
