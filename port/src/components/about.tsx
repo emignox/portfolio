@@ -1,5 +1,5 @@
 import Sound from "./sound";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import Button from "./button-work";
 import Reason from "./reason";
 import Skills from "./skills";
@@ -60,7 +60,11 @@ export function About() {
 
   return (
     <>
-      <div className="page-scrim" />
+      {/* sopra un cielo stellato fitto il testo lungo vuole un filo di contrasto in piu' */}
+      <div
+        className="page-scrim"
+        style={{ "--scrim-tint": 0.2 } as CSSProperties}
+      />
       <div className="min-h-screen">
         <Button />
         <div className="flex flex-col items-center justify-center h-3/5 ">

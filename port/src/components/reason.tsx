@@ -7,7 +7,7 @@ function Reason() {
       <p className="text-4xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
         I'm Emanuele Polizzotto,
         <br />
-        <span className="text-white/70">I build products that ship.</span>
+        <span className="text-white/70">I turn complex business logic into simple software.</span>
       </p>
     </div>
   );

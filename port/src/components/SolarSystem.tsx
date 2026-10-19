@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { LineMaterial, LineSegments2, LineSegmentsGeometry } from "three-stdlib";
 import { Planet, Sun, PlanetKind } from "../space/planets";
 import { projects } from "./project-data";
+import type { SpaceMode } from "../space/director";
 
 // Il mio lavoro come sistema solare: il sole e' lo stack, i pianeti sono i prodotti
 // (in ordine reale: Terra, Marte, Giove, Saturno, Urano, Nettuno), Odoo e' Saturno
@@ -257,6 +258,15 @@ const ODOO = PLANETS.findIndex((p) => p.id === "odoo");
 // true mentre il mouse indica qualcosa: la camera si ferma, cosi' il pianeta non scivola via
 export const cameraHold = { current: false };
 
+// posizioni vive dei pianeti, lette dal regista della camera per i voli
+export const planetRegistry = new Map<string, { pos: THREE.Vector3; radius: number; ringed: boolean }>();
+// luce virtuale che illumina i pianeti (la camera si mette dal lato illuminato)
+export const systemLight = new THREE.Vector3(0, 28, -20);
+
+// il layout del sistema non dipende dalla camera (che vola): riferimento fisso
+const REF_Z = 10;
+const REF_FOV = 75;
+
 const SUN_Z = -75;
 const STAR_Z = -95;
 const ORBIT_POINTS = 128;
@@ -320,7 +330,9 @@ function canvasTexture(draw: (ctx: CanvasRenderingContext2D, s: number) => void,
 
 const easeOut = (x: number) => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);
 
-const SolarSystem: React.FC = () => {
+const SolarSystem: React.FC<{ mode?: SpaceMode }> = ({ mode = "home" }) => {
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
   const { camera, size } = useThree();
   const [hovered, setHovered] = useState(-1);
 
@@ -368,6 +380,17 @@ const SolarSystem: React.FC = () => {
   const starPos = useRef(STARS.map(() => new THREE.Vector3()));
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const ndc = useMemo(() => new THREE.Vector2(), []);
+
+  useEffect(() => {
+    PLANETS.forEach((pl, i) =>
+      planetRegistry.set(pl.id, {
+        pos: planetPos.current[i],
+        radius: pl.radius,
+        ringed: pl.kind === "saturn",
+      })
+    );
+    return () => PLANETS.forEach((pl) => planetRegistry.delete(pl.id));
+  }, []);
 
   // ---- texture
   const glowTex = useMemo(
@@ -557,13 +580,14 @@ const SolarSystem: React.FC = () => {
     if (start.current < 0) start.current = now;
     const t = reduceMotion ? 100 : now - start.current;
     const cam = camera as THREE.PerspectiveCamera;
-    const tanHalf = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+    const tanHalf = Math.tan(THREE.MathUtils.degToRad(REF_FOV / 2));
+    const home = modeRef.current === "home";
     const portrait = cam.aspect < 0.85;
 
     // ---- hover (o tour automatico quando nessuno muove il mouse)
     const ms = performance.now();
     if (ms > pinUntil.current) {
-      const i = pointer.current.active ? pick(pointer.current.x, pointer.current.y) : -1;
+      const i = home && pointer.current.active ? pick(pointer.current.x, pointer.current.y) : -1;
       if (i !== hoverRef.current) {
         hoverRef.current = i;
         setHovered(i);
@@ -571,9 +595,9 @@ const SolarSystem: React.FC = () => {
       }
     }
     const hUser = hoverRef.current;
-    cameraHold.current = hUser >= 0;
+    cameraHold.current = home && hUser >= 0;
     let hTour = -1;
-    if (hUser < 0 && !reduceMotion && t > 5 && ms - lastActivity.current > 5000) {
+    if (home && hUser < 0 && !reduceMotion && t > 5 && ms - lastActivity.current > 5000) {
       hTour = pickOfPlanet(Math.floor((t - 5) / 3.6) % PLANETS.length);
     }
     const h = hUser >= 0 ? hUser : hTour;
@@ -581,17 +605,18 @@ const SolarSystem: React.FC = () => {
     const isRelated = (pi: number) => h >= 0 && (pi === h || relatedOf[h].includes(pi));
 
     // ---- tempo: rallenta quando si indica qualcosa (piu' facile cliccare)
-    const wantRate = hUser >= 0 ? 0.1 : 1;
+    const wantRate = hUser >= 0 ? 0.1 : home ? 1 : 0.35;
     rate.current += (wantRate - rate.current) * (1 - Math.exp(-delta * 4));
     if (!reduceMotion) tau.current += delta * rate.current;
 
     // ---- sole
-    const distSun = cam.position.z - SUN_Z;
+    const distSun = REF_Z - SUN_Z;
     const halfH = distSun * tanHalf;
     const halfW = halfH * cam.aspect;
     sunRef.current.set(0, halfH * (portrait ? 0.36 : 0.4), SUN_Z);
     sunGroup.current?.position.copy(sunRef.current);
     lightRef.current.set(sunRef.current.x, sunRef.current.y + 8, SUN_Z + 55);
+    systemLight.copy(lightRef.current);
     sunIntensity.current = easeOut(t / 1.6);
 
     // ---- pianeti su orbite ellittiche in prospettiva
@@ -634,8 +659,9 @@ const SolarSystem: React.FC = () => {
       }
       attr.needsUpdate = true;
       const om = orbits[i].material as THREE.LineBasicMaterial;
-      const orbitTarget =
-        h < 0 ? 0.16 : self || PICKS[h].type === "sun" ? 0.55 : rel ? 0.3 : 0.06;
+      const orbitTarget = !home
+        ? 0.07
+        : h < 0 ? 0.16 : self || PICKS[h].type === "sun" ? 0.55 : rel ? 0.3 : 0.06;
       om.opacity += (orbitTarget * appear - om.opacity) * 0.12;
     });
 
@@ -662,7 +688,7 @@ const SolarSystem: React.FC = () => {
     });
 
     // ---- stelle della costellazione
-    const distStar = cam.position.z - STAR_Z;
+    const distStar = REF_Z - STAR_Z;
     const sH = distStar * tanHalf;
     const sW = sH * cam.aspect;
     STARS.forEach((s, i) => {
@@ -674,7 +700,7 @@ const SolarSystem: React.FC = () => {
       const appear = easeOut((t - 1.4 - i * 0.12) / 1);
       const twinkle = reduceMotion ? 1 : 0.85 + 0.15 * Math.sin(now * 2.3 + i * 1.9);
       const boost = h === pi ? 1.6 : isRelated(pi) ? 1.35 : h >= 0 ? 0.75 : 1;
-      starSprites.current[i]?.scale.setScalar(2.4 * twinkle * boost * appear + 0.001);
+      starSprites.current[i]?.scale.setScalar(2.4 * twinkle * boost * appear * (home ? 1 : 0) + 0.001);
     });
 
     // ---- linee della costellazione
@@ -687,7 +713,7 @@ const SolarSystem: React.FC = () => {
     });
     cAttr.needsUpdate = true;
     const cm = constellation.material as THREE.LineBasicMaterial;
-    cm.opacity += ((h >= 0 ? 0.12 : 0.22) * easeOut((t - 1.8) / 1.5) - cm.opacity) * 0.1;
+    cm.opacity += ((home ? (h >= 0 ? 0.12 : 0.22) : 0) * easeOut((t - 1.8) / 1.5) - cm.opacity) * 0.1;
 
     // ---- linee di relazione dell'elemento evidenziato (si disegnano verso l'esterno)
     if (h !== lastHot.current) {
@@ -735,9 +761,11 @@ const SolarSystem: React.FC = () => {
       const base = h < 0 || isRelated(pi) ? 1 : dimLevel * 0.7;
       el.style.opacity = String(appear * base);
       const hide =
+        !home ||
         (p.type === "moon" && h !== pi) ||
         (portrait && p.type === "star" && h !== pi && !isRelated(pi));
       el.style.visibility = hide ? "hidden" : "visible";
+      if (hide) return;
 
       // se l'etichetta uscirebbe dal bordo, la sposto di lato quanto basta
       worldOf(pi, tmp).project(cam);

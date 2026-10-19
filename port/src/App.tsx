@@ -7,9 +7,8 @@ import Scroll from './pages/projects';
 import Nav from './components/nav';
 import logo from '/realLogo.svg';
 
-// le scene 3D (three + r3f) si caricano a parte: la pagina si apre prima
-const HomeComponent3D = lazy(() => import('./components/homeComponente3D'));
-const ModelSea = lazy(() => import('./modelSea'));
+// l'universo 3D (three + r3f) si carica a parte: la pagina si apre prima
+const Universe = lazy(() => import('./space/Universe'));
 
 const SWAP_AFTER_MS = 380;
 
@@ -54,8 +53,9 @@ function App() {
     <>
       <Nav className='' />
 
+      {/* un solo universo per tutte le pagine: cambiare pagina e' un volo */}
       <Suspense fallback={<Loader />}>
-        {shown.pathname === '/' ? <HomeComponent3D /> : <ModelSea />}
+        <Universe route={location.pathname} />
       </Suspense>
 
       <Routes location={shown}>
@@ -69,7 +69,7 @@ function App() {
           key={veilKey}
           aria-hidden
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0] }}
+          animate={{ opacity: [0, 0.55, 0] }}
           transition={{ duration: 0.95, times: [0, 0.4, 1], ease: 'easeInOut' }}
           className="fixed inset-0 z-[60] pointer-events-none bg-[#0b0f1a]"
         />
