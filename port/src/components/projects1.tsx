@@ -4,6 +4,7 @@ import { MdArrowOutward } from "react-icons/md";
 import { projects, Project } from "./project-data";
 import Nav_projects from "./project-nav";
 import Sound from "./sound";
+import { useLocation } from "react-router-dom";
 import { spaceFocus, PLANET_OF_PROJECT } from "../space/director";
 
 // nome e colore (quello dell'atmosfera) del pianeta di ogni progetto, per il badge nella scheda
@@ -56,11 +57,17 @@ function ProjectMedia({ project }: { project: Project }) {
 }
 
 function Projects() {
-  const [currentProject, setCurrentProject] = useState(projects[0]);
+  // arrivando dalla home con un clic su un pianeta (#/scroll?p=nemei) si parte da quel progetto
+  const { search } = useLocation();
+  const [initial] = useState(() => {
+    const planet = new URLSearchParams(search).get("p");
+    return projects.find((p) => PLANET_OF_PROJECT[p.title] === planet) ?? projects[0];
+  });
+  const [currentProject, setCurrentProject] = useState(initial);
   const [isVisible, setIsVisible] = useState(true);
 
   // ultimo progetto richiesto: frecce premute in fila partono da qui, non dal progetto ancora in dissolvenza
-  const targetRef = useRef(projects[0]);
+  const targetRef = useRef(initial);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleProjectClick = (project: Project) => {

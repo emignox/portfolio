@@ -18,3 +18,13 @@ export const PLANET_OF_PROJECT: Record<string, string> = {
   "Immoweb Radar": "radar",
   "Piano Trainer": "piano",
 };
+
+// Ellisse della fascia di asteroidi (tra Marte e Giove), scritta ogni frame dal sistema solare.
+// Un punto dell'orbita all'angolo th: (cx + a*cos th, cy - b*sin th, cz + d*sin th).
+export const beltShape = { cx: 0, cy: 0, cz: -75, a: 0, b: 0, d: 0, appear: 0 };
+
+// Posizione del sole nel mondo, scritta ogni frame dal sistema solare.
+export const sunWorld = { x: 0, y: 20, z: -75 };
+
+// Pagina corrente vista dall'universo: "home" | "projects" | "about"
+export const currentMode = { current: "home" as SpaceMode };

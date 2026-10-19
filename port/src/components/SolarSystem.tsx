@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { LineMaterial, LineSegments2, LineSegmentsGeometry } from "three-stdlib";
 import { Planet, Sun, PlanetKind } from "../space/planets";
 import { projects } from "./project-data";
+import { beltShape, sunWorld } from "../space/director";
 import type { SpaceMode } from "../space/director";
 
 // Il mio lavoro come sistema solare: il sole e' lo stack, i pianeti sono i prodotti
@@ -27,7 +28,6 @@ const CAT_DOT: Record<Cat, string> = {
 };
 
 const liveLink = (title: string) => projects.find((p) => p.title === title)?.link;
-const hostname = (link: string) => new URL(link).hostname.replace("www.", "");
 
 interface PlanetDef {
   id: string;
@@ -524,9 +524,10 @@ const SolarSystem: React.FC<{ mode?: SpaceMode }> = ({ mode = "home" }) => {
       const i = pick(e.clientX, e.clientY);
       if (i < 0) return;
       lastActivity.current = performance.now();
-      const link = infoOf(PICKS[i]).link;
-      if (link) {
-        window.open(link, "_blank", "noopener,noreferrer");
+      const picked = PICKS[i];
+      if (picked.type === "planet" && PLANETS[picked.i].link) {
+        // si vola sul pianeta: la pagina Projects si apre su quel progetto
+        window.location.hash = `#/scroll?p=${PLANETS[picked.i].id}`;
       } else {
         // su touch la scheda resta aperta qualche secondo
         pinUntil.current = performance.now() + 3500;
@@ -617,6 +618,18 @@ const SolarSystem: React.FC<{ mode?: SpaceMode }> = ({ mode = "home" }) => {
     sunGroup.current?.position.copy(sunRef.current);
     lightRef.current.set(sunRef.current.x, sunRef.current.y + 8, SUN_Z + 55);
     systemLight.copy(lightRef.current);
+    sunWorld.x = sunRef.current.x;
+    sunWorld.y = sunRef.current.y;
+    sunWorld.z = sunRef.current.z;
+    // fascia di asteroidi tra l'orbita di Marte e quella di Giove
+    const ba = 0.435 * halfW * (portrait ? 1.08 : 0.95);
+    beltShape.cx = sunRef.current.x;
+    beltShape.cy = sunRef.current.y;
+    beltShape.cz = SUN_Z;
+    beltShape.a = ba;
+    beltShape.b = ba * (portrait ? 0.85 : 0.36);
+    beltShape.d = Math.min(ba * 0.45, 28);
+    beltShape.appear = easeOut((t - 1.6) / 2);
     sunIntensity.current = easeOut(t / 1.6);
 
     // ---- pianeti su orbite ellittiche in prospettiva
@@ -822,7 +835,7 @@ const SolarSystem: React.FC<{ mode?: SpaceMode }> = ({ mode = "home" }) => {
               ))}
               {info.link && (
                 <span className="mt-2 block font-semibold text-white">
-                  Visit {hostname(info.link)} ↗
+                  Click to fly there ↗
                 </span>
               )}
             </div>

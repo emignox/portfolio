@@ -5,7 +5,9 @@ import SolarSystem, { cameraHold, planetRegistry, systemLight } from "../compone
 import Text3DFullstack from "../components/Text3DFullstack";
 import { SpaceBackdrop } from "./SpaceBackdrop";
 import { WarpStreaks } from "./WarpStreaks";
-import { spaceFocus, warp, SpaceMode } from "./director";
+import { AsteroidBelt } from "./AsteroidBelt";
+import { Comet } from "./Comet";
+import { spaceFocus, warp, currentMode, SpaceMode } from "./director";
 
 // Un unico universo per tutto il sito: cambiare pagina = volare nello spazio.
 
@@ -40,6 +42,7 @@ function Director({ mode }: { mode: SpaceMode }) {
   // spostamento dell'immagine (frazione di schermo): il pianeta resta sull'asse della camera,
   // quindi tondo, ma appare a sinistra (desktop) o in alto (mobile)
   const viewOff = useRef({ x: 0, y: 0, active: false });
+  const entered = useRef(false);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -53,6 +56,16 @@ function Director({ mode }: { mode: SpaceMode }) {
   useFrame(({ camera, clock, size }, delta) => {
     const cam = camera as THREE.PerspectiveCamera;
     const t = clock.getElapsedTime();
+    currentMode.current = mode;
+
+    // entrata: si arriva dallo spazio profondo in iperspazio e si frena davanti al sistema
+    if (!entered.current) {
+      entered.current = true;
+      if (!reduceMotion) {
+        cam.position.set(0, 10, 420);
+        lastPos.copy(cam.position);
+      }
+    }
     const sway = reduceMotion ? 0 : 1;
     const px = pointer.current.x * sway;
     const py = pointer.current.y * sway;
@@ -172,6 +185,8 @@ const Universe: React.FC<{ route: string }> = ({ route }) => {
       <Director mode={mode} />
       <SpaceBackdrop reducedMotion={reduceMotion} />
       <SolarSystem mode={mode} />
+      <AsteroidBelt />
+      <Comet />
       {mode === "home" && <Text3DFullstack position={[0, -36, -120]} />}
       <WarpStreaks intensityRef={warp} />
     </Canvas>
